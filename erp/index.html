@@ -125,9 +125,9 @@
 <!-- Top Navigation Bar -->
 <header class="bg-surface border-b border-outline-variant w-full h-20 sticky top-0 z-50">
 <nav class="flex justify-between items-center px-gutter max-w-container-max-width mx-auto h-full">
-<div class="text-headline-lg font-bold text-primary">
-            Caixa Lucrativo
-        </div>
+<div class="flex items-center gap-3">
+<img alt="Caixa Lucrativo Logo" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL08zerZ72G-GTPj3zg0hQUwn35UwHpXLNSunkL3H8pZlckC3dHvvh8_nNcss6uP5t8-3LvcAw3gX8AnfCV0i1mh-aXnOy1B5o5i5vzmU2qDglzeUNKa3LQGRNkDqyha-IT1c8oM7RyZld6oUvnwjtAVN_z5uzRgXvH41fM6hPAWfLWhT8LG6jRf6Go2kwac4KLf2FhMJ9S9iDviobU0MPV4b2eYKixbzVBhCdO_J8RfkDDeBPZMmyWsIgJpiu20r0SCvQiXP_BDsU"/>
+</div>
 <div class="hidden md:flex items-center gap-8">
 <a class="text-on-surface-variant hover:text-primary transition-colors font-title-md text-body-lg" href="#diferenciais">Diferenciais</a>
 <a class="text-on-surface-variant hover:text-primary transition-colors font-title-md text-body-lg" href="#funcionalidades">Funcionalidades</a>
@@ -145,7 +145,7 @@
 <section class="py-16 md:py-24 bg-surface-container-low overflow-hidden">
 <div class="max-w-container-max-width mx-auto px-gutter grid grid-cols-1 md:grid-cols-2 items-center gap-12">
 <div class="flex flex-col gap-6">
-<span class="font-bold text-label-md text-primary tracking-widest uppercase">O seu parceiro financeiro</span>
+<span class="font-bold text-label-md text-primary tracking-widest uppercase">15 anos de mercado em gestão empresarial</span>
 <h1 class="text-display-lg text-on-surface leading-tight">
                     Gestão Financeira <br/>
 <span class="text-gradient">Lucrativa para MEIs</span>
@@ -165,7 +165,42 @@
 </div>
 <div class="relative flex justify-center items-center">
 <div class="absolute w-[120%] h-[120%] bg-primary/5 rounded-full blur-3xl -z-10"></div>
-<img alt="Caixa Lucrativo Interface" class="w-full h-auto object-contain drop-shadow-2xl max-w-[500px]" src="https://lh3.googleusercontent.com/aida/ADBb0uj_IEftRkScilWr7f5PRiYyaA_bxze6G4VK7kDCJijkHWFKaIRbH35WiQZZYd9BWZB4waYf_h5k9DCd-QBQcr9h-BI4FOqj04hK6b6LmXh-EJZfmetWFtTRRdzh15D5UzJiYSywLAV3CJgat-KzWJGMTxHoRWUY4HTeA8E-ba5T4AnuwQA6PMj5UEWXBWOPz8NrKc2FT7qDIo-fkqPEJmBRDVqWYSXCAQ_fbCzzCwh2H7GmjUO9l_hzd4Nq"/>
+<form class="w-full max-w-[520px] bg-surface-container-lowest border border-outline-variant rounded-xl p-8 card-shadow flex flex-col gap-5">
+<div>
+<span class="font-bold text-label-md text-primary tracking-widest uppercase">Aplicação rápida</span>
+<h2 class="text-headline-lg text-on-surface mt-2">Veja se o ERP é para sua empresa</h2>
+<p class="text-body-sm text-on-surface-variant mt-2">Preencha seus dados e receba o próximo passo para organizar sua gestão.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="flex flex-col gap-2 text-body-sm font-bold text-on-surface">
+Nome
+<input class="h-12 rounded-DEFAULT border border-outline-variant bg-surface-container-low px-4 text-body-sm font-normal text-on-surface focus:border-primary focus:ring-primary" type="text" name="nome" autocomplete="name" placeholder="Seu nome" />
+</label>
+<label class="flex flex-col gap-2 text-body-sm font-bold text-on-surface">
+WhatsApp
+<input class="h-12 rounded-DEFAULT border border-outline-variant bg-surface-container-low px-4 text-body-sm font-normal text-on-surface focus:border-primary focus:ring-primary" type="tel" name="whatsapp" autocomplete="tel" placeholder="(11) 99999-9999" />
+</label>
+</div>
+<label class="flex flex-col gap-2 text-body-sm font-bold text-on-surface">
+Email
+<input class="h-12 rounded-DEFAULT border border-outline-variant bg-surface-container-low px-4 text-body-sm font-normal text-on-surface focus:border-primary focus:ring-primary" type="email" name="email" autocomplete="email" placeholder="voce@empresa.com" />
+</label>
+<label class="flex flex-col gap-2 text-body-sm font-bold text-on-surface">
+Empresa
+<input class="h-12 rounded-DEFAULT border border-outline-variant bg-surface-container-low px-4 text-body-sm font-normal text-on-surface focus:border-primary focus:ring-primary" type="text" name="empresa" autocomplete="organization" placeholder="Nome da empresa" />
+</label>
+<label class="flex flex-col gap-2 text-body-sm font-bold text-on-surface">
+Faturamento mensal
+<select class="h-12 rounded-DEFAULT border border-outline-variant bg-surface-container-low px-4 text-body-sm font-normal text-on-surface focus:border-primary focus:ring-primary" name="faturamento">
+<option value="">Selecione uma opção</option>
+<option>Até 30 mil</option>
+<option>De 30 mil a 150 mil</option>
+<option>De 150 mil a 500 mil</option>
+<option>Mais que 500 mil</option>
+</select>
+</label>
+<button class="cta-gradient text-on-primary font-bold text-body-lg px-8 py-4 rounded-lg shadow-xl hover:scale-105 transition-transform" type="button">Aplicar agora</button>
+</form>
 </div>
 </div>
 </section>
@@ -204,10 +239,128 @@
 </div>
 </div>
 </section>
-<!-- Features (Funcionalidades) - Bento Grid Style -->
+<!-- Pricing Highlight -->
+<section class="py-12 bg-surface" id="planos">
+<div class="max-w-container-max-width mx-auto px-gutter">
+<div class="bg-surface p-6 md:p-10 rounded-xl border border-outline-variant card-shadow">
+<div class="text-center mb-12">
+<h2 class="text-headline-lg text-on-surface">Planos que cabem no seu bolso</h2>
+<p class="text-body-lg text-on-surface-variant mt-2">Escolha a melhor opção para impulsionar seu crescimento.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-stretch">
+<!-- Plan Básico -->
+<div class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant card-shadow flex flex-col hover:border-primary transition-colors">
+<h4 class="text-title-md text-on-surface mb-4">Básico</h4>
+<div class="mb-6">
+<span class="text-headline-lg">R$ 49</span><span class="text-on-surface-variant text-body-sm">/mês</span>
+</div>
+<ul class="text-body-sm text-on-surface-variant space-y-4 flex-1">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> 1 Usuário</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Controle de Caixa</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Relatórios Simples</li>
+</ul>
+<button class="mt-8 border-2 border-primary text-primary font-bold py-3 rounded-DEFAULT hover:bg-primary-container/20 transition-colors">Selecionar</button>
+</div>
+<!-- Plan Inteligente (Highlighted) -->
+<div class="bg-surface-container-lowest p-8 rounded-lg border-2 border-primary card-shadow flex flex-col relative scale-105 z-10">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-4 py-1 rounded-full text-label-md font-bold uppercase tracking-tighter">Recomendado</div>
+<h4 class="text-title-md text-on-surface mb-4">Inteligente</h4>
+<div class="mb-6">
+<span class="text-headline-lg">R$ 99</span><span class="text-on-surface-variant text-body-sm">/mês</span>
+</div>
+<ul class="text-body-sm text-on-surface-variant space-y-4 flex-1">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> 3 Usuários</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Conciliação Automática</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Dashboard Completo</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Suporte Prioritário</li>
+</ul>
+<button class="mt-8 cta-gradient text-on-primary font-bold py-4 rounded-DEFAULT shadow-lg hover:scale-105 transition-transform">Assinar Agora</button>
+</div>
+<!-- Plan Total -->
+<div class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant card-shadow flex flex-col hover:border-primary transition-colors">
+<h4 class="text-title-md text-on-surface mb-4">Total</h4>
+<div class="mb-6">
+<span class="text-headline-lg">R$ 199</span><span class="text-on-surface-variant text-body-sm">/mês</span>
+</div>
+<ul class="text-body-sm text-on-surface-variant space-y-4 flex-1">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Usuários Ilimitados</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> APIs de Integração</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> BI Avançado</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Gerente de Contas</li>
+</ul>
+<button class="mt-8 border-2 border-primary text-primary font-bold py-3 rounded-DEFAULT hover:bg-primary-container/20 transition-colors">Selecionar</button>
+</div>
+<!-- Plan Sob Medida -->
+<div class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant card-shadow flex flex-col hover:border-primary transition-colors">
+<h4 class="text-title-md text-on-surface mb-4">Sob Medida</h4>
+<div class="mb-6">
+<span class="text-headline-lg">Custom</span>
+</div>
+<p class="text-body-sm text-on-surface-variant mb-6 flex-1">Ideal para empresas com necessidades específicas de integração e volumes massivos de transação.</p>
+<button class="mt-8 border-2 border-outline text-on-surface font-bold py-3 rounded-DEFAULT hover:bg-surface-container-low transition-colors">Falar com Consultor</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Features (Funcionalidades) -->
 <section class="py-16 md:py-24 bg-surface-container-lowest" id="funcionalidades">
 <div class="max-w-container-max-width mx-auto px-gutter">
-<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="text-center mb-16">
+<h2 class="text-headline-lg text-on-surface">Nossas funcionalidades</h2>
+<p class="text-body-lg text-on-surface-variant mt-2">Tudo o que sua operação precisa para controlar financeiro, vendas, estoque e fiscal em um só lugar.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Controle Financeiro</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Notas Fiscais de Produtos e Serviços</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Conciliação Bancária</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Impostos e Taxas</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Gestão de Compras</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Gestão de Vendas e Comissões</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Contas a Pagar</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Controle e Acesso de Funcionários</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Contas a Receber e Controle de Boletos</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Integrações</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">Controle de Estoque e Logística</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+<div class="bg-surface-container-lowest border border-primary rounded-DEFAULT px-6 py-5 flex items-center justify-between card-shadow">
+<span class="text-title-md text-on-surface">WhatsApp</span>
+<span class="material-symbols-outlined text-primary">expand_more</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 mt-16">
 <!-- Main Feature -->
 <div class="md:col-span-8 bg-surface-container p-10 rounded-lg border border-outline-variant flex flex-col md:flex-row gap-8 items-center overflow-hidden">
 <div class="flex-1">
@@ -264,74 +417,11 @@
 <section class="py-12 bg-surface border-y border-outline-variant" id="integracoes">
 <div class="max-w-container-max-width mx-auto px-gutter flex flex-col md:flex-row items-center justify-between gap-8">
 <p class="font-bold text-label-md text-on-surface-variant uppercase tracking-widest">Integrado com os melhores:</p>
-<div class="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-<span class="text-3xl font-bold text-on-surface-variant">STRIPE</span>
-<span class="text-3xl font-bold text-on-surface-variant">ASAAS</span>
-<span class="text-3xl font-bold text-on-surface-variant">PAGAR.ME</span>
-<span class="text-3xl font-bold text-on-surface-variant">HOTMART</span>
-<span class="text-3xl font-bold text-on-surface-variant">SHOPIFY</span>
-</div>
-</div>
-</section>
-<!-- Pricing Section -->
-<section class="py-16 md:py-24 bg-surface" id="planos">
-<div class="max-w-container-max-width mx-auto px-gutter">
-<div class="text-center mb-16">
-<h2 class="text-headline-lg text-on-surface">Planos que cabem no seu bolso</h2>
-<p class="text-body-lg text-on-surface-variant mt-2">Escolha a melhor opção para impulsionar seu crescimento.</p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-stretch">
-<!-- Plan Básico -->
-<div class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant card-shadow flex flex-col hover:border-primary transition-colors">
-<h4 class="text-title-md text-on-surface mb-4">Básico</h4>
-<div class="mb-6">
-<span class="text-headline-lg">R$ 49</span><span class="text-on-surface-variant text-body-sm">/mês</span>
-</div>
-<ul class="text-body-sm text-on-surface-variant space-y-4 flex-1">
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> 1 Usuário</li>
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Controle de Caixa</li>
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Relatórios Simples</li>
-</ul>
-<button class="mt-8 border-2 border-primary text-primary font-bold py-3 rounded-DEFAULT hover:bg-primary-container/20 transition-colors">Selecionar</button>
-</div>
-<!-- Plan Inteligente (Highlighted) -->
-<div class="bg-surface-container-lowest p-8 rounded-lg border-2 border-primary card-shadow flex flex-col relative scale-105 z-10">
-<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-4 py-1 rounded-full text-label-md font-bold uppercase tracking-tighter">Recomendado</div>
-<h4 class="text-title-md text-on-surface mb-4">Inteligente</h4>
-<div class="mb-6">
-<span class="text-headline-lg">R$ 99</span><span class="text-on-surface-variant text-body-sm">/mês</span>
-</div>
-<ul class="text-body-sm text-on-surface-variant space-y-4 flex-1">
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> 3 Usuários</li>
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Conciliação Automática</li>
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Dashboard Completo</li>
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Suporte Prioritário</li>
-</ul>
-<button class="mt-8 cta-gradient text-on-primary font-bold py-4 rounded-DEFAULT shadow-lg hover:scale-105 transition-transform">Assinar Agora</button>
-</div>
-<!-- Plan Total -->
-<div class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant card-shadow flex flex-col hover:border-primary transition-colors">
-<h4 class="text-title-md text-on-surface mb-4">Total</h4>
-<div class="mb-6">
-<span class="text-headline-lg">R$ 199</span><span class="text-on-surface-variant text-body-sm">/mês</span>
-</div>
-<ul class="text-body-sm text-on-surface-variant space-y-4 flex-1">
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Usuários Ilimitados</li>
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> APIs de Integração</li>
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> BI Avançado</li>
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm font-bold">check</span> Gerente de Contas</li>
-</ul>
-<button class="mt-8 border-2 border-primary text-primary font-bold py-3 rounded-DEFAULT hover:bg-primary-container/20 transition-colors">Selecionar</button>
-</div>
-<!-- Plan Sob Medida -->
-<div class="bg-surface-container-lowest p-8 rounded-lg border border-outline-variant card-shadow flex flex-col hover:border-primary transition-colors">
-<h4 class="text-title-md text-on-surface mb-4">Sob Medida</h4>
-<div class="mb-6">
-<span class="text-headline-lg">Custom</span>
-</div>
-<p class="text-body-sm text-on-surface-variant mb-6 flex-1">Ideal para empresas com necessidades específicas de integração e volumes massivos de transação.</p>
-<button class="mt-8 border-2 border-outline text-on-surface font-bold py-3 rounded-DEFAULT hover:bg-surface-container-low transition-colors">Falar com Consultor</button>
-</div>
+<div class="flex flex-wrap justify-center items-center gap-10 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+<img class="h-9 md:h-11 w-auto object-contain" src="assets/stripe.png" alt="Stripe" />
+<img class="h-9 md:h-11 w-auto object-contain" src="assets/pagarme.png" alt="Pagar.me" />
+<img class="h-9 md:h-11 w-auto object-contain" src="assets/hotmart.png" alt="Hotmart" />
+<img class="h-9 md:h-11 w-auto object-contain" src="assets/shopfy.png" alt="Shopify" />
 </div>
 </div>
 </section>
