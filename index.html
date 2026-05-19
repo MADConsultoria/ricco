@@ -504,10 +504,143 @@
         font-family:'Montserrat', sans-serif;
         cursor:pointer;
       }
+      .lead-modal{
+        position:fixed;
+        inset:0;
+        z-index:50;
+        display:grid;
+        place-items:center;
+        padding:24px;
+        background:rgba(15,18,34,.78);
+        backdrop-filter:blur(10px);
+      }
+      .lead-modal[hidden]{
+        display:none;
+      }
+      .lead-form{
+        width:min(520px,100%);
+        border-radius:8px;
+        padding:32px;
+        background:#fff;
+        box-shadow:0 28px 80px rgba(0,0,0,.32);
+      }
+      .lead-form h2{
+        margin:0 0 10px;
+        color:#0f1222;
+        font-family:'League Spartan', 'Poppins', sans-serif;
+        font-size:38px;
+        line-height:1.05;
+      }
+      .lead-form p{
+        margin:0 0 22px;
+        color:#3a3d4d;
+        font-size:16px;
+        line-height:1.5;
+      }
+      .lead-fields{
+        display:grid;
+        gap:14px;
+      }
+      .lead-field{
+        display:grid;
+        gap:6px;
+      }
+      .lead-field label{
+        color:#171a28;
+        font-size:14px;
+        font-weight:700;
+      }
+      .lead-field input,
+      .lead-field select{
+        width:100%;
+        min-height:48px;
+        border:1px solid #d7d9e5;
+        border-radius:8px;
+        padding:0 14px;
+        color:#111421;
+        background:#fff;
+        font:500 16px 'Montserrat', system-ui, -apple-system, sans-serif;
+      }
+      .lead-field input:focus,
+      .lead-field select:focus{
+        outline:3px solid rgba(62,199,238,.28);
+        border-color:#3ec7ee;
+      }
+      .lead-submit{
+        width:100%;
+        min-height:52px;
+        margin-top:18px;
+        border:none;
+        border-radius:999px;
+        background:linear-gradient(90deg, #4dd2dd, #56c1e2, #59a1e2, #5b85e2, #6063e2, #6258e2);
+        color:#fff;
+        font-size:18px;
+        font-weight:800;
+        font-family:'Montserrat', sans-serif;
+        cursor:pointer;
+      }
+      .lead-submit:disabled{
+        cursor:not-allowed;
+        opacity:.72;
+      }
+      .lead-feedback{
+        min-height:20px;
+        margin:12px 0 0;
+        color:#c42828;
+        font-size:14px;
+        font-weight:700;
+      }
+      @media (max-width: 540px){
+        .lead-modal{
+          padding:14px;
+        }
+        .lead-form{
+          padding:24px;
+        }
+        .lead-form h2{
+          font-size:32px;
+        }
+      }
     </style>
   </head>
 
   <body>
+    <div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadTitle">
+      <form class="lead-form" id="leadForm">
+        <h2 id="leadTitle">Antes de acessar</h2>
+        <p>Preencha seus dados para ver se o Caixa Lucrativo faz sentido para o seu momento.</p>
+        <div class="lead-fields">
+          <div class="lead-field">
+            <label for="leadNome">Nome</label>
+            <input id="leadNome" name="nome" type="text" autocomplete="name" required />
+          </div>
+          <div class="lead-field">
+            <label for="leadEmail">Email</label>
+            <input id="leadEmail" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="lead-field">
+            <label for="leadWhatsapp">WhatsApp</label>
+            <input id="leadWhatsapp" name="whatsapp" type="tel" autocomplete="tel" required />
+          </div>
+          <div class="lead-field">
+            <label for="leadEmpresa">Empresa</label>
+            <input id="leadEmpresa" name="empresa" type="text" autocomplete="organization" required />
+          </div>
+          <div class="lead-field">
+            <label for="leadFaturamento">Margem de faturamento</label>
+            <select id="leadFaturamento" name="faturamento" required>
+              <option value="">Selecione uma opção</option>
+              <option value="Até 30 mil">Até 30 mil</option>
+              <option value="De 30 mil a 150 mil">De 30 mil a 150 mil</option>
+              <option value="De 150 mil a 500 mil">De 150 mil a 500 mil</option>
+              <option value="Mais que 500 mil">Mais que 500 mil</option>
+            </select>
+          </div>
+        </div>
+        <button class="lead-submit" type="submit">Acessar página</button>
+        <p class="lead-feedback" id="leadFeedback" aria-live="polite"></p>
+      </form>
+    </div>
     <header class="hero">
       <div class="hero-layer">
         <div class="hero-card">
@@ -649,6 +782,48 @@
       </div>
     </section>
     <script>
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/a/macros/level5group.com.br/s/AKfycbxVTnkgqhxYWC-ZfPIXXKkQ59KKJWli2gaflC3MT206Tnn2Wr9D_MYCsIlwBeYxzEWV-A/exec';
+      const leadModal = document.getElementById('leadModal');
+      const leadForm = document.getElementById('leadForm');
+      const leadFeedback = document.getElementById('leadFeedback');
+      const leadSubmit = leadForm.querySelector('.lead-submit');
+
+      leadForm.addEventListener('submit', async event => {
+        event.preventDefault();
+        leadFeedback.textContent = '';
+
+        if (GOOGLE_SCRIPT_URL === 'COLE_A_URL_DO_APPS_SCRIPT_AQUI') {
+          leadFeedback.textContent = 'Configure a URL do Apps Script no código antes de publicar.';
+          return;
+        }
+
+        const formData = new FormData(leadForm);
+        const payload = Object.fromEntries(formData.entries());
+        payload.origem = 'LP Caixa Lucrativo';
+
+        leadSubmit.disabled = true;
+        leadSubmit.textContent = 'Enviando...';
+
+        try {
+          await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'text/plain;charset=utf-8'
+            },
+            body: JSON.stringify(payload)
+          });
+
+          leadModal.hidden = true;
+          leadForm.reset();
+        } catch (error) {
+          leadFeedback.textContent = 'Não foi possível enviar agora. Tente novamente.';
+        } finally {
+          leadSubmit.disabled = false;
+          leadSubmit.textContent = 'Acessar página';
+        }
+      });
+
       document.querySelectorAll('.response-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const current = btn.getAttribute('data-state');
