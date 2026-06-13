@@ -139,8 +139,10 @@
 <img alt="Caixa Lucrativo Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL08zerZ72G-GTPj3zg0hQUwn35UwHpXLNSunkL3H8pZlckC3dHvvh8_nNcss6uP5t8-3LvcAw3gX8AnfCV0i1mh-aXnOy1B5o5i5vzmU2qDglzeUNKa3LQGRNkDqyha-IT1c8oM7RyZld6oUvnwjtAVN_z5uzRgXvH41fM6hPAWfLWhT8LG6jRf6Go2kwac4KLf2FhMJ9S9iDviobU0MPV4b2eYKixbzVBhCdO_J8RfkDDeBPZMmyWsIgJpiu20r0SCvQiXP_BDsU"/>
 </div>
 <nav class="hidden md:flex gap-stack-lg">
-<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors active-nav-link" href="#">Diferenciais</a>
-<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Planos</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors active-nav-link" href="#diferenciais">Diferenciais</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#funcionalidades">Funcionalidades</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#integracoes">Integrações</a>
+<a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#planos">Planos</a>
 <a class="text-on-surface-variant dark:text-outline-variant font-medium hover:text-primary dark:hover:text-primary-fixed transition-colors" href="https://wa.me/5511989904848?text=Preciso%20de%20ajuda%20com%20o%20ERP%20Caixa%20Lucrativo">Suporte</a>
 </nav>
 <div class="flex items-center gap-4">
@@ -161,16 +163,16 @@
 </button>
 </div>
 <nav class="flex flex-col gap-2">
-<a class="flex items-center gap-4 p-4 bg-primary-container text-on-primary-container rounded-full font-label-caps text-label-caps" href="#">
+<a class="flex items-center gap-4 p-4 bg-primary-container text-on-primary-container rounded-full font-label-caps text-label-caps" href="#diferenciais" onclick="document.getElementById('mobile-drawer').classList.add('-translate-x-full')">
 <span class="material-symbols-outlined">star</span> Diferenciais
             </a>
-<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-container-high rounded-full font-label-caps text-label-caps transition-colors" href="#">
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-container-high rounded-full font-label-caps text-label-caps transition-colors" href="#funcionalidades" onclick="document.getElementById('mobile-drawer').classList.add('-translate-x-full')">
 <span class="material-symbols-outlined">dashboard</span> Funcionalidades
             </a>
-<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-container-high rounded-full font-label-caps text-label-caps transition-colors" href="#">
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-container-high rounded-full font-label-caps text-label-caps transition-colors" href="#integracoes" onclick="document.getElementById('mobile-drawer').classList.add('-translate-x-full')">
 <span class="material-symbols-outlined">extension</span> Integrações
             </a>
-<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-container-high rounded-full font-label-caps text-label-caps transition-colors" href="#">
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-container-high rounded-full font-label-caps text-label-caps transition-colors" href="#planos" onclick="document.getElementById('mobile-drawer').classList.add('-translate-x-full')">
 <span class="material-symbols-outlined">payments</span> Planos
             </a>
 <a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-container-high rounded-full font-label-caps text-label-caps transition-colors" href="https://wa.me/5511989904848?text=Preciso%20de%20ajuda%20com%20o%20ERP%20Caixa%20Lucrativo">
@@ -211,7 +213,7 @@
 <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-cta-gradient-start/10 rounded-full blur-3xl -z-0"></div>
 </section>
 <!-- Diferenciais (Bento Grid Style) -->
-<section class="bg-bg-grey/50 py-section-padding-desktop px-margin-mobile md:px-section-padding-desktop">
+<section class="bg-bg-grey/50 py-section-padding-desktop px-margin-mobile md:px-section-padding-desktop scroll-mt-20" id="diferenciais">
 <div class="max-w-container-max mx-auto">
 <div class="mb-stack-lg text-center">
 <h2 class="font-headline-md text-headline-md text-on-background mb-4">Por que escolher o Caixa Lucrativo?</h2>
@@ -246,7 +248,7 @@
 </div>
 </section>
 <!-- Funcionalidades (Grid) -->
-<section class="py-section-padding-desktop px-margin-mobile md:px-section-padding-desktop">
+<section class="py-section-padding-desktop px-margin-mobile md:px-section-padding-desktop scroll-mt-20" id="funcionalidades">
 <div class="max-w-container-max mx-auto">
 <div class="text-center mb-16">
 <span class="font-label-caps text-label-caps text-primary tracking-widest uppercase mb-2 block">Potencialize sua gestão</span>
@@ -321,7 +323,7 @@
 </div>
 </section>
 <!-- Integrações Section -->
-<section class="bg-primary overflow-hidden relative">
+<section class="bg-primary overflow-hidden relative scroll-mt-20" id="integracoes">
 <div class="max-w-container-max mx-auto px-margin-mobile md:px-section-padding-desktop py-20 flex flex-col md:flex-row items-center gap-12 relative z-10">
 <div class="flex-1 text-on-primary">
 <h2 class="font-headline-md text-headline-md mb-6">Integrações Inteligentes</h2>
@@ -342,7 +344,7 @@
 <div class="absolute inset-0 bg-gradient-to-r from-primary to-cta-gradient-end opacity-50"></div>
 </section>
 <!-- Planos -->
-<section class="py-section-padding-desktop px-margin-mobile md:px-section-padding-desktop bg-surface">
+<section class="py-section-padding-desktop px-margin-mobile md:px-section-padding-desktop bg-surface scroll-mt-20" id="planos">
 <div class="max-w-container-max mx-auto">
 <div class="text-center mb-16">
 <h2 class="font-headline-md text-headline-md text-on-background mb-4">Escolha seu Plano</h2>
