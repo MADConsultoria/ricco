@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Checkout seguro — Caixa Lucrativo Essencial</title>
+    <meta name="robots" content="noindex" />
+
+    <!-- SDK de tokenizacao do Asaas (ambiente Sandbox) -->
+    <script src="https://sandbox.asaas.com/v3/asaas.js"></script>
+
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap');
+
+      :root{
+        --brand:#7976f2;
+        --brand-strong:#3d57f6;
+        --brand-ink:#6760e0;
+        --accent:#3ec7ee;
+        --ink:#0f1222;
+        --ink-soft:#3a3d4d;
+        --muted:#6b6f82;
+        --bg:#eef0f8;
+        --card:#ffffff;
+        --line:#e2e5f1;
+        --positive:#1f9d4d;
+        --positive-bg:#e9fbef;
+        --negative:#d93b3b;
+        --negative-bg:#fdeaea;
+        --cta-gradient:linear-gradient(90deg, #4dd2dd, #56c1e2, #59a1e2, #5b85e2, #6063e2, #6258e2);
+        --radius-sm:12px;
+        --radius-md:18px;
+        --radius-lg:24px;
+        --shadow-sm:0 6px 18px rgba(15,18,34,.06);
+        --shadow-md:0 24px 60px rgba(15,18,34,.12);
+        --ease:cubic-bezier(.2,.7,.2,1);
+      }
+
+      *{box-sizing:border-box}
+      body{
+        margin:0;
+        font-family:'Montserrat', system-ui, -apple-system, sans-serif;
+        color:var(--ink);
+        background:
+          radial-gradient(900px 500px at 100% -10%, rgba(121,118,242,.22), transparent 55%),
+          radial-gradient(700px 400px at -10% 0%, rgba(62,199,238,.18), transparent 55%),
+          var(--bg);
+        min-height:100vh;
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        line-height:1.5;
+      }
+      a{color:var(--brand-strong)}
+
+      /* ---------- TOPBAR ---------- */
+      .topbar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:16px;
+        max-width:1080px;
+        margin:0 auto;
+        padding:22px 24px 8px;
+      }
+      .brand{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        font-family:'League Spartan', sans-serif;
+        font-weight:800;
+        font-size:20px;
+        letter-spacing:-.01em;
+        color:var(--ink);
+      }
+      .brand-badge{
+        width:38px;height:38px;border-radius:11px;
+        background:var(--cta-gradient);
+        display:grid;place-items:center;color:#fff;font-weight:800;
+        box-shadow:var(--shadow-sm);
+      }
+      .secure-pill{
+        display:inline-flex;align-items:center;gap:8px;
+        background:var(--positive-bg);
+        color:var(--positive);
+        font-size:13px;font-weight:700;
+        padding:8px 14px;border-radius:999px;
+        border:1px solid rgba(31,157,77,.25);
+      }
+      .secure-pill svg{width:15px;height:15px}
+
+      /* ---------- LAYOUT ---------- */
+      .checkout{
+        max-width:1080px;
+        margin:0 auto;
+        padding:16px 24px 64px;
+        display:grid;
+        grid-template-columns:1.35fr .85fr;
+        gap:26px;
+        align-items:start;
+      }
+      .panel{
+        background:var(--card);
+        border:1px solid var(--line);
+        border-radius:var(--radius-lg);
+        box-shadow:var(--shadow-md);
+        padding:clamp(22px, 4vw, 34px);
+      }
+      .panel + .panel{margin-top:22px}
+
+      .step{
+        display:flex;align-items:center;gap:12px;
+        margin:0 0 20px;
+      }
+      .step-num{
+        width:30px;height:30px;border-radius:50%;
+        background:var(--brand-ink);color:#fff;
+        display:grid;place-items:center;font-weight:800;font-size:15px;
+        flex:0 0 auto;
+      }
+      .step h2{
+        margin:0;
+        font-size:clamp(19px, 3vw, 22px);
+        font-family:'League Spartan', sans-serif;
+        letter-spacing:-.01em;
+      }
+
+      /* ---------- FORM ---------- */
+      .grid{display:grid;gap:16px}
+      .grid-2{grid-template-columns:1fr 1fr}
+      .field{display:grid;gap:7px}
+      .field label{font-size:13.5px;font-weight:700;color:#1a1d2b}
+      .field .input-wrap{position:relative;display:flex;align-items:center}
+      .field .brand-flag{
+        position:absolute;right:12px;
+        font-size:12px;font-weight:700;color:var(--muted);
+        letter-spacing:.04em;text-transform:uppercase;
+        pointer-events:none;
+      }
+      input{
+        width:100%;
+        min-height:52px;
+        border:1.5px solid #dcdfee;
+        border-radius:var(--radius-sm);
+        padding:0 15px;
+        color:#111421;
+        background:#fff;
+        font:500 16px 'Montserrat', system-ui, sans-serif;
+        transition:border-color .18s var(--ease), box-shadow .18s var(--ease);
+      }
+      input::placeholder{color:#a9adbf}
+      input:focus{
+        outline:none;
+        border-color:var(--accent);
+        box-shadow:0 0 0 4px rgba(62,199,238,.20);
+      }
+      input:disabled{background:#f6f7fb;cursor:not-allowed}
+
+      .card-hint{
+        display:flex;align-items:center;gap:10px;
+        margin-top:6px;color:var(--muted);font-size:12.5px;
+      }
+      .card-hint svg{width:14px;height:14px;flex:0 0 auto}
+
+      /* ---------- SUMMARY ---------- */
+      .summary-title{
+        margin:0 0 18px;
+        font-size:18px;font-family:'League Spartan', sans-serif;letter-spacing:-.01em;
+      }
+      .product{
+        display:flex;gap:14px;align-items:center;
+        padding-bottom:18px;border-bottom:1px dashed var(--line);
+      }
+      .product-icon{
+        width:52px;height:52px;border-radius:14px;flex:0 0 auto;
+        background:linear-gradient(135deg, #7976f2, #3ec7ee);
+        display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;
+      }
+      .product-info strong{display:block;font-size:15.5px}
+      .product-info span{font-size:13px;color:var(--muted)}
+      .totals{margin:18px 0 0;display:grid;gap:10px}
+      .totals .row{display:flex;justify-content:space-between;font-size:14.5px;color:var(--ink-soft)}
+      .totals .row.total{
+        margin-top:6px;padding-top:14px;border-top:1px solid var(--line);
+        font-size:20px;font-weight:800;color:var(--ink);
+        font-family:'League Spartan', sans-serif;
+      }
+      .totals .total span:last-child{color:var(--brand-strong)}
+      .partner-tag{
+        margin-top:14px;font-size:12.5px;color:var(--muted);
+      }
+      .partner-tag b{color:var(--ink)}
+
+      /* ---------- BUTTON ---------- */
+      .pay-btn{
+        width:100%;
+        min-height:58px;
+        margin-top:22px;
+        border:none;
+        border-radius:999px;
+        background:var(--cta-gradient);
+        color:#fff;
+        font-size:19px;font-weight:800;
+        font-family:'Montserrat', sans-serif;
+        cursor:pointer;
+        display:inline-flex;align-items:center;justify-content:center;gap:12px;
+        box-shadow:0 20px 48px rgba(48,64,150,.32);
+        transition:transform .18s var(--ease), box-shadow .18s var(--ease), opacity .18s var(--ease);
+      }
+      .pay-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 26px 60px rgba(48,64,150,.42)}
+      .pay-btn:active:not(:disabled){transform:translateY(0)}
+      .pay-btn:disabled{opacity:.75;cursor:not-allowed}
+      .pay-btn .spinner{
+        width:20px;height:20px;border-radius:50%;
+        border:2.5px solid rgba(255,255,255,.45);
+        border-top-color:#fff;
+        animation:spin .7s linear infinite;
+        display:none;
+      }
+      .pay-btn.is-loading .spinner{display:inline-block}
+      @keyframes spin{to{transform:rotate(360deg)}}
+
+      .trust-row{
+        display:flex;flex-wrap:wrap;gap:14px 20px;justify-content:center;
+        margin-top:18px;color:var(--muted);font-size:12.5px;
+      }
+      .trust-row span{display:inline-flex;align-items:center;gap:7px}
+      .trust-row svg{width:14px;height:14px}
+
+      /* ---------- FEEDBACK ---------- */
+      .feedback{
+        margin-top:18px;
+        border-radius:var(--radius-sm);
+        padding:14px 16px;
+        font-size:14.5px;font-weight:600;
+        display:none;
+        align-items:flex-start;gap:10px;
+      }
+      .feedback.show{display:flex}
+      .feedback.success{background:var(--positive-bg);color:var(--positive);border:1px solid rgba(31,157,77,.25)}
+      .feedback.error{background:var(--negative-bg);color:var(--negative);border:1px solid rgba(217,59,59,.25)}
+      .feedback svg{width:18px;height:18px;flex:0 0 auto;margin-top:1px}
+
+      .footnote{
+        max-width:1080px;margin:0 auto;padding:0 24px 40px;
+        text-align:center;color:var(--muted);font-size:12.5px;
+      }
+
+      @media (max-width: 860px){
+        .checkout{grid-template-columns:1fr;gap:20px}
+        .order-panel{order:-1}
+      }
+      @media (max-width: 480px){
+        .grid-2{grid-template-columns:1fr}
+        .topbar{flex-direction:column;align-items:flex-start;gap:10px}
+      }
+      @media (prefers-reduced-motion: reduce){
+        *{animation:none !important;transition:none !important}
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="topbar">
+      <div class="brand">
+        <span class="brand-badge">CL</span>
+        Caixa Lucrativo
+      </div>
+      <span class="secure-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Pagamento 100% seguro
+      </span>
+    </div>
+
+    <form id="checkoutForm" class="checkout" novalidate>
+      <div>
+        <!-- Etapa 1: dados do cliente -->
+        <section class="panel">
+          <div class="step">
+            <span class="step-num">1</span>
+            <h2>Seus dados</h2>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="nome">Nome completo</label>
+              <input id="nome" name="nome" type="text" autocomplete="name" placeholder="Como no seu documento" required />
+            </div>
+            <div class="grid grid-2">
+              <div class="field">
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="voce@email.com" required />
+              </div>
+              <div class="field">
+                <label for="cpf">CPF</label>
+                <input id="cpf" name="cpf" type="text" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14" required />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Etapa 2: pagamento -->
+        <section class="panel">
+          <div class="step">
+            <span class="step-num">2</span>
+            <h2>Pagamento no cartão</h2>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="cardNumber">Número do cartão</label>
+              <div class="input-wrap">
+                <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" maxlength="19" required />
+                <span class="brand-flag" id="cardFlag"></span>
+              </div>
+            </div>
+            <div class="grid grid-2">
+              <div class="field">
+                <label for="cardExpiry">Validade (MM/AA)</label>
+                <input id="cardExpiry" name="cardExpiry" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" maxlength="5" required />
+              </div>
+              <div class="field">
+                <label for="cardCvv">CVV</label>
+                <input id="cardCvv" name="cardCvv" type="text" inputmode="numeric" autocomplete="cc-csc" placeholder="123" maxlength="4" required />
+              </div>
+            </div>
+            <div class="field">
+              <label for="cardHolder">Nome no cartão</label>
+              <input id="cardHolder" name="cardHolder" type="text" autocomplete="cc-name" placeholder="Igual ao impresso no cartão" required />
+            </div>
+          </div>
+          <div class="card-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Seus dados de cartão são tokenizados pelo Asaas. Nunca trafegam nem são armazenados em nossos servidores.
+          </div>
+
+          <button type="submit" class="pay-btn" id="payBtn">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="pay-label">Finalizar Compra</span>
+          </button>
+
+          <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+
+          <div class="trust-row">
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Criptografia SSL
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Tokenização Asaas
+            </span>
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+              Cobrança recorrente transparente
+            </span>
+          </div>
+        </section>
+      </div>
+
+      <!-- Resumo do pedido -->
+      <aside class="panel order-panel">
+        <h2 class="summary-title">Resumo do pedido</h2>
+        <div class="product">
+          <div class="product-icon">CL</div>
+          <div class="product-info">
+            <strong>Caixa Lucrativo Essencial</strong>
+            <span>Assinatura mensal</span>
+          </div>
+        </div>
+        <div class="totals">
+          <div class="row"><span>Assinatura</span><span>R$ 296,00</span></div>
+          <div class="row"><span>Recorrência</span><span>Mensal</span></div>
+          <div class="row total"><span>Total hoje</span><span>R$ 296,00</span></div>
+        </div>
+        <p class="partner-tag" id="partnerTag" hidden>Parceiro: <b id="partnerValue"></b></p>
+      </aside>
+    </form>
+
+    <p class="footnote">
+      Ao finalizar, você concorda com os termos da assinatura. Ambiente de pagamento processado via Asaas.
+    </p>
+
+    <script>
+      // ======= CONFIGURACAO =======
+      // Substitua pela URL real do seu webhook (n8n, Make, backend proprio, etc.).
+      const URL_DO_MEU_WEBHOOK = 'URL_DO_MEU_WEBHOOK';
+      // ============================
+
+      const form = document.getElementById('checkoutForm');
+      const payBtn = document.getElementById('payBtn');
+      const payLabel = payBtn.querySelector('.pay-label');
+      const feedback = document.getElementById('feedback');
+
+      const ICON_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+      const ICON_ERR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>';
+
+      // ---- Captura do parametro da URL (ex.: ?ref=vendedor1) ----
+      const params = new URLSearchParams(window.location.search);
+      const ref = params.get('ref');
+      if (ref) {
+        document.getElementById('partnerValue').textContent = ref;
+        document.getElementById('partnerTag').hidden = false;
+      }
+
+      // ---- Mascaras de input ----
+      const cpfInput = document.getElementById('cpf');
+      const cardNumberInput = document.getElementById('cardNumber');
+      const cardExpiryInput = document.getElementById('cardExpiry');
+      const cardCvvInput = document.getElementById('cardCvv');
+      const cardFlag = document.getElementById('cardFlag');
+
+      const onlyDigits = value => value.replace(/\D/g, '');
+
+      cpfInput.addEventListener('input', () => {
+        let v = onlyDigits(cpfInput.value).slice(0, 11);
+        v = v.replace(/(\d{3})(\d)/, '$1.$2')
+             .replace(/(\d{3})(\d)/, '$1.$2')
+             .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+        cpfInput.value = v;
+      });
+
+      function detectFlag(number) {
+        if (/^4/.test(number)) return 'Visa';
+        if (/^(5[1-5]|2[2-7])/.test(number)) return 'Master';
+        if (/^3[47]/.test(number)) return 'Amex';
+        if (/^(636|438935|504175|451416|636297|5067|4576|4011|506699)/.test(number)) return 'Elo';
+        return '';
+      }
+
+      cardNumberInput.addEventListener('input', () => {
+        const digits = onlyDigits(cardNumberInput.value).slice(0, 16);
+        cardNumberInput.value = digits.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+        cardFlag.textContent = detectFlag(digits);
+      });
+
+      cardExpiryInput.addEventListener('input', () => {
+        let v = onlyDigits(cardExpiryInput.value).slice(0, 4);
+        if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
+        cardExpiryInput.value = v;
+      });
+
+      cardCvvInput.addEventListener('input', () => {
+        cardCvvInput.value = onlyDigits(cardCvvInput.value).slice(0, 4);
+      });
+
+      // ---- Feedback helpers ----
+      function showFeedback(type, message) {
+        feedback.className = 'feedback show ' + type;
+        feedback.innerHTML = (type === 'success' ? ICON_OK : ICON_ERR) + '<span>' + message + '</span>';
+      }
+      function clearFeedback() {
+        feedback.className = 'feedback';
+        feedback.innerHTML = '';
+      }
+      function setLoading(isLoading) {
+        payBtn.disabled = isLoading;
+        payBtn.classList.toggle('is-loading', isLoading);
+        payLabel.textContent = isLoading ? 'Processando...' : 'Finalizar Compra';
+      }
+
+      // ---- Validacao simples ----
+      function validate(data) {
+        if (!data.nome.trim()) return 'Informe seu nome completo.';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) return 'Informe um e-mail válido.';
+        if (onlyDigits(data.cpf).length !== 11) return 'Informe um CPF válido.';
+        if (onlyDigits(data.cardNumber).length < 13) return 'Número do cartão inválido.';
+        if (!/^\d{2}\/\d{2}$/.test(data.cardExpiry)) return 'Validade inválida. Use MM/AA.';
+        if (onlyDigits(data.cardCvv).length < 3) return 'CVV inválido.';
+        if (!data.cardHolder.trim()) return 'Informe o nome impresso no cartão.';
+        return null;
+      }
+
+      // ---- Tokenizacao via SDK do Asaas ----
+      async function tokenizeCard(data) {
+        if (!window.asaas || !asaas.creditCard || typeof asaas.creditCard.tokenizeCreditCard !== 'function') {
+          throw new Error('SDK do Asaas indisponível. Verifique sua conexão e tente novamente.');
+        }
+
+        const [expiryMonth, expiryYearShort] = data.cardExpiry.split('/');
+        const expiryYear = '20' + expiryYearShort;
+
+        const cardData = {
+          creditCard: {
+            holderName: data.cardHolder.trim(),
+            number: onlyDigits(data.cardNumber),
+            expiryMonth: expiryMonth,
+            expiryYear: expiryYear,
+            ccv: onlyDigits(data.cardCvv)
+          },
+          creditCardHolderInfo: {
+            name: data.nome.trim(),
+            email: data.email.trim(),
+            cpfCnpj: onlyDigits(data.cpf)
+          }
+        };
+
+        const result = await asaas.creditCard.tokenizeCreditCard(cardData);
+        const token = result && (result.creditCardToken || result.token || (result.data && result.data.creditCardToken));
+        if (!token) {
+          throw new Error('Não foi possível gerar o token do cartão.');
+        }
+        return token;
+      }
+
+      // ---- Envio ao webhook (apenas token + dados do cliente) ----
+      async function sendToWebhook(payload) {
+        const response = await fetch(URL_DO_MEU_WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) {
+          throw new Error('Falha ao concluir o pagamento. Tente novamente em instantes.');
+        }
+        return response;
+      }
+
+      // ---- Fluxo principal ----
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        clearFeedback();
+
+        const data = {
+          nome: document.getElementById('nome').value,
+          email: document.getElementById('email').value,
+          cpf: document.getElementById('cpf').value,
+          cardNumber: cardNumberInput.value,
+          cardExpiry: cardExpiryInput.value,
+          cardCvv: cardCvvInput.value,
+          cardHolder: document.getElementById('cardHolder').value
+        };
+
+        const validationError = validate(data);
+        if (validationError) {
+          showFeedback('error', validationError);
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          // 1) Gera o token do cartao no Asaas (dados sensiveis nao saem daqui).
+          const creditCardToken = await tokenizeCard(data);
+
+          // 2) Monta o payload SEM numero do cartao, validade ou CVV.
+          const payload = {
+            nome: data.nome.trim(),
+            email: data.email.trim(),
+            cpf: onlyDigits(data.cpf),
+            creditCardToken: creditCardToken,
+            codigoParceiro: ref || null
+          };
+
+          // 3) Envia somente o token e os dados do cliente ao webhook.
+          await sendToWebhook(payload);
+
+          form.reset();
+          cardFlag.textContent = '';
+          showFeedback('success', 'Pagamento confirmado! Enviamos os próximos passos para o seu e-mail.');
+        } catch (error) {
+          showFeedback('error', error && error.message ? error.message : 'Algo deu errado. Tente novamente.');
+        } finally {
+          setLoading(false);
+        }
+      });
+    </script>
+  </body>
+</html>
