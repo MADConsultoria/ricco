@@ -124,6 +124,52 @@
         letter-spacing:-.01em;
       }
 
+      /* ---------- VERSION SELECTOR ---------- */
+      .version-grid{
+        border:0;margin:0;padding:0;
+        display:grid;grid-template-columns:1fr 1fr;gap:14px;
+      }
+      .version-option{
+        position:relative;
+        display:flex;align-items:center;gap:14px;
+        padding:18px 16px;
+        border:1.5px solid #dcdfee;
+        border-radius:var(--radius-md);
+        cursor:pointer;
+        background:#fff;
+        transition:border-color .18s var(--ease), box-shadow .18s var(--ease), transform .12s var(--ease);
+      }
+      .version-option:hover{border-color:var(--brand);transform:translateY(-1px)}
+      .version-option input{position:absolute;opacity:0;pointer-events:none}
+      .version-icon{
+        width:42px;height:42px;border-radius:12px;flex:0 0 auto;
+        display:grid;place-items:center;color:#fff;
+        background:linear-gradient(135deg, #7976f2, #3ec7ee);
+      }
+      .version-icon svg{width:22px;height:22px}
+      .version-body{display:flex;flex-direction:column;gap:2px}
+      .version-body strong{font-size:16px;font-family:'League Spartan',sans-serif}
+      .version-body span{font-size:12.5px;color:var(--muted)}
+      .version-check{
+        position:absolute;top:12px;right:12px;
+        width:20px;height:20px;border-radius:50%;
+        border:2px solid #d0d4e6;background:#fff;
+        display:grid;place-items:center;
+        transition:border-color .18s var(--ease), background .18s var(--ease);
+      }
+      .version-check::after{
+        content:'';width:8px;height:8px;border-radius:50%;
+        background:#fff;transform:scale(0);transition:transform .18s var(--ease);
+      }
+      .version-option input:checked ~ .version-check{border-color:var(--brand-strong);background:var(--brand-strong)}
+      .version-option input:checked ~ .version-check::after{transform:scale(1)}
+      .version-option:has(input:checked){
+        border-color:var(--brand-strong);
+        box-shadow:0 0 0 3px rgba(61,87,246,.16);
+        background:linear-gradient(180deg,#fff,#f6f7ff);
+      }
+      .version-option input:focus-visible ~ .version-check{box-shadow:0 0 0 4px rgba(62,199,238,.22)}
+
       /* ---------- FORM ---------- */
       .grid{display:grid;gap:16px}
       .grid-2{grid-template-columns:1fr 1fr}
@@ -273,10 +319,42 @@
 
     <form id="checkoutForm" class="checkout" novalidate>
       <div>
-        <!-- Etapa 1: dados do cliente -->
+        <!-- Etapa 1: versao do produto -->
         <section class="panel">
           <div class="step">
             <span class="step-num">1</span>
+            <h2>Escolha sua versão</h2>
+          </div>
+          <fieldset class="version-grid" id="versionGrid">
+            <label class="version-option">
+              <input type="radio" name="versaoProduto" value="WhatsApp" checked />
+              <span class="version-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-4-1L3 20l1-4.5a8.5 8.5 0 1 1 17-4z"/></svg>
+              </span>
+              <span class="version-body">
+                <strong>WhatsApp</strong>
+                <span>Lançamentos e alertas pelo WhatsApp</span>
+              </span>
+              <span class="version-check" aria-hidden="true"></span>
+            </label>
+            <label class="version-option">
+              <input type="radio" name="versaoProduto" value="Telegram" />
+              <span class="version-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 3-9.5 9.5"/><path d="M22 3 15 21l-4-8-8-4 19-6z"/></svg>
+              </span>
+              <span class="version-body">
+                <strong>Telegram</strong>
+                <span>Lançamentos e alertas pelo Telegram</span>
+              </span>
+              <span class="version-check" aria-hidden="true"></span>
+            </label>
+          </fieldset>
+        </section>
+
+        <!-- Etapa 2: dados do cliente -->
+        <section class="panel">
+          <div class="step">
+            <span class="step-num">2</span>
             <h2>Seus dados</h2>
           </div>
           <div class="grid">
@@ -300,7 +378,7 @@
         <!-- Etapa 2: pagamento -->
         <section class="panel">
           <div class="step">
-            <span class="step-num">2</span>
+            <span class="step-num">3</span>
             <h2>Pagamento no cartão</h2>
           </div>
           <div class="grid">
@@ -380,8 +458,8 @@
 
     <script>
       // ======= CONFIGURACAO =======
-      // Substitua pela URL real do seu webhook (n8n, Make, backend proprio, etc.).
-      const URL_DO_MEU_WEBHOOK = 'URL_DO_MEU_WEBHOOK';
+      // Webhook do n8n que recebe o resultado do checkout.
+      const URL_DO_MEU_WEBHOOK = 'https://n8nricco.caixalucrativo.com.br/webhook/60c747b9-d3ca-48ac-aa2d-c0741a064f5a';
       // ============================
 
       const form = document.getElementById('checkoutForm');
@@ -518,10 +596,12 @@
         event.preventDefault();
         clearFeedback();
 
+        const selectedVersion = form.querySelector('input[name="versaoProduto"]:checked');
         const data = {
           nome: document.getElementById('nome').value,
           email: document.getElementById('email').value,
           cpf: document.getElementById('cpf').value,
+          versaoProduto: selectedVersion ? selectedVersion.value : '',
           cardNumber: cardNumberInput.value,
           cardExpiry: cardExpiryInput.value,
           cardCvv: cardCvvInput.value,
@@ -545,6 +625,7 @@
             nome: data.nome.trim(),
             email: data.email.trim(),
             cpf: onlyDigits(data.cpf),
+            versaoProduto: data.versaoProduto,
             creditCardToken: creditCardToken,
             codigoParceiro: ref || null
           };
