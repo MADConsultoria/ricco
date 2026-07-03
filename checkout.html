@@ -6,9 +6,6 @@
     <title>Checkout seguro — Caixa Lucrativo Essencial</title>
     <meta name="robots" content="noindex" />
 
-    <!-- SDK de tokenizacao do Asaas (ambiente Sandbox) -->
-    <script src="https://sandbox.asaas.com/v3/asaas.js"></script>
-
     <style>
     @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap');
 
@@ -406,7 +403,7 @@
           </div>
           <div class="card-hint">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            Seus dados de cartão são tokenizados pelo Asaas. Nunca trafegam nem são armazenados em nossos servidores.
+            Seus dados são enviados por conexão criptografada (HTTPS) e processados com segurança via Asaas.
           </div>
 
           <button type="submit" class="pay-btn" id="payBtn">
@@ -423,7 +420,7 @@
             </span>
             <span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-              Tokenização Asaas
+              Processamento via Asaas
             </span>
             <span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
@@ -546,39 +543,7 @@
         return null;
       }
 
-      // ---- Tokenizacao via SDK do Asaas ----
-      async function tokenizeCard(data) {
-        if (!window.asaas || !asaas.creditCard || typeof asaas.creditCard.tokenizeCreditCard !== 'function') {
-          throw new Error('SDK do Asaas indisponível. Verifique sua conexão e tente novamente.');
-        }
-
-        const [expiryMonth, expiryYearShort] = data.cardExpiry.split('/');
-        const expiryYear = '20' + expiryYearShort;
-
-        const cardData = {
-          creditCard: {
-            holderName: data.cardHolder.trim(),
-            number: onlyDigits(data.cardNumber),
-            expiryMonth: expiryMonth,
-            expiryYear: expiryYear,
-            ccv: onlyDigits(data.cardCvv)
-          },
-          creditCardHolderInfo: {
-            name: data.nome.trim(),
-            email: data.email.trim(),
-            cpfCnpj: onlyDigits(data.cpf)
-          }
-        };
-
-        const result = await asaas.creditCard.tokenizeCreditCard(cardData);
-        const token = result && (result.creditCardToken || result.token || (result.data && result.data.creditCardToken));
-        if (!token) {
-          throw new Error('Não foi possível gerar o token do cartão.');
-        }
-        return token;
-      }
-
-      // ---- Envio ao webhook (apenas token + dados do cliente) ----
+      // ---- Envio ao webhook do n8n (backend seguro faz a tokenizacao/cobranca no Asaas) ----
       async function sendToWebhook(payload) {
         const response = await fetch(URL_DO_MEU_WEBHOOK, {
           method: 'POST',
@@ -617,20 +582,23 @@
         setLoading(true);
 
         try {
-          // 1) Gera o token do cartao no Asaas (dados sensiveis nao saem daqui).
-          const creditCardToken = await tokenizeCard(data);
-
-          // 2) Monta o payload SEM numero do cartao, validade ou CVV.
+          // Monta o payload completo. O n8n atua como backend seguro:
+          // recebe os dados do cartao via HTTPS e faz a tokenizacao/cobranca no Asaas.
+          const [expiryMonth, expiryYearShort] = data.cardExpiry.split('/');
           const payload = {
             nome: data.nome.trim(),
             email: data.email.trim(),
             cpf: onlyDigits(data.cpf),
             versaoProduto: data.versaoProduto,
-            creditCardToken: creditCardToken,
+            numeroCartao: onlyDigits(data.cardNumber),
+            validade: data.cardExpiry,
+            validadeMes: expiryMonth,
+            validadeAno: '20' + expiryYearShort,
+            nomeNoCartao: data.cardHolder.trim(),
+            cvv: onlyDigits(data.cardCvv),
             codigoParceiro: ref || null
           };
 
-          // 3) Envia somente o token e os dados do cliente ao webhook.
           await sendToWebhook(payload);
 
           form.reset();
