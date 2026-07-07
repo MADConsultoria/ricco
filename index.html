@@ -1908,9 +1908,11 @@
             const data = await response.json();
             if (Array.isArray(data) && data.length > 0) {
               const firstItem = data[0];
-              targetUrl = firstItem.link || firstItem.url || firstItem.paymentLink || firstItem.payment_link || (typeof firstItem === 'string' && firstItem.startsWith('http') ? firstItem : '');
+              // Adicionado o firstItem.checkoutUrl
+              targetUrl = firstItem.checkoutUrl || firstItem.link || firstItem.url || firstItem.paymentLink || firstItem.payment_link || (typeof firstItem === 'string' && firstItem.startsWith('http') ? firstItem : '');
             } else if (data) {
-              targetUrl = data.link || data.url || data.paymentLink || data.payment_link || (typeof data === 'string' && data.startsWith('http') ? data : '');
+              // Adicionado o data.checkoutUrl
+              targetUrl = data.checkoutUrl || data.link || data.url || data.paymentLink || data.payment_link || (typeof data === 'string' && data.startsWith('http') ? data : '');
             }
           } else {
             const text = await response.text();
