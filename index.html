@@ -1608,7 +1608,7 @@
           </div>
           <div class="lead-field">
             <label for="leadWhatsapp">WhatsApp</label>
-            <input id="leadWhatsapp" name="whatsapp" type="tel" autocomplete="tel" placeholder="(00) 00000-0000" required />
+            <input id="leadWhatsapp" name="whatsapp" type="tel" inputmode="numeric" autocomplete="tel" placeholder="11995695094" pattern="[0-9]{10,11}" maxlength="11" title="DDD + número, só dígitos. Ex: 11995695094" required />
           </div>
           <div class="lead-field">
             <label for="leadEmpresa">Empresa</label>
@@ -2020,6 +2020,12 @@
       const leadForm     = document.getElementById('leadForm');
       const leadFeedback = document.getElementById('leadFeedback');
       const leadSubmit   = leadForm.querySelector('.lead-submit');
+
+      // Keep WhatsApp field digits-only (DDD + número, sem parênteses/traço)
+      const leadWhatsappInput = document.getElementById('leadWhatsapp');
+      leadWhatsappInput.addEventListener('input', () => {
+        leadWhatsappInput.value = leadWhatsappInput.value.replace(/\D/g, '').slice(0, 11);
+      });
 
       // Pre-fill modal fields if they exist in localStorage
       const savedNome = localStorage.getItem('ricco_nome');
