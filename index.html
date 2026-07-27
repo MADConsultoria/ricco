@@ -1344,6 +1344,30 @@
     .cta-checkout.loading .cta-label{display:none}
     @keyframes spin{to{transform:rotate(360deg)}}
 
+    .trial-link{
+      display:inline-flex;align-items:center;justify-content:center;
+      gap:8px;
+      margin-top:14px;
+      border:none;background:none;
+      color:var(--text-muted);
+      font-size:14px;font-weight:600;
+      font-family:'Montserrat',sans-serif;
+      cursor:pointer;
+      transition:color .2s;
+    }
+    .trial-link:hover{color:var(--cyan)}
+    .trial-link:disabled{cursor:not-allowed;opacity:.6}
+    .trial-link .spinner{
+      display:none;
+      width:14px;height:14px;
+      border:2px solid rgba(255,255,255,.25);
+      border-top-color:var(--text-muted);
+      border-radius:50%;
+      animation:spin .7s linear infinite;
+    }
+    .trial-link.loading .spinner{display:inline-block}
+    .trial-link.loading .trial-label{display:none}
+
     .checkout-secure{
       margin-top:16px;
       font-size:13px;
@@ -2000,6 +2024,10 @@
               <span class="cta-label">Quero organizar minhas finanças</span>
               <span class="spinner"></span>
             </button>
+            <button class="trial-link" id="ctaTrial" type="button">
+              <span class="trial-label">ou comece com 15 dias grátis →</span>
+              <span class="spinner"></span>
+            </button>
             <div class="checkout-secure">
               <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg>
               Pagamento seguro via Asaas
@@ -2163,10 +2191,9 @@
 
       /* ── Checkout CTA Flow ──────────────────────────── */
       const ctaCheckout = document.getElementById('ctaCheckout');
+      const ctaTrial    = document.getElementById('ctaTrial');
 
-      ctaCheckout.addEventListener('click', async (e) => {
-        e.preventDefault();
-
+      async function iniciarCheckout(button, testeGratis) {
         // 1. Recover lead data from localStorage
         const nome  = localStorage.getItem('ricco_nome')     || '';
         const email = localStorage.getItem('ricco_email')    || '';
@@ -2188,8 +2215,8 @@
         const ref       = urlParams.get('ref') || '';
 
         // 4. Show loading spinner
-        ctaCheckout.classList.add('loading');
-        ctaCheckout.disabled = true;
+        button.classList.add('loading');
+        button.disabled = true;
 
         // 5. Build & send payload
         const payload = {
@@ -2197,7 +2224,8 @@
           Email:          email,
           Telefone:       fone,
           VersaoProduto:  versaoProduto,
-          Ref:            ref
+          Ref:            ref,
+          TesteGratis:    testeGratis
         };
 
         try {
@@ -2237,9 +2265,19 @@
           console.error('Checkout error:', err);
           alert('Erro de conexão. Verifique sua internet e tente novamente.');
         } finally {
-          ctaCheckout.classList.remove('loading');
-          ctaCheckout.disabled = false;
+          button.classList.remove('loading');
+          button.disabled = false;
         }
+      }
+
+      ctaCheckout.addEventListener('click', (e) => {
+        e.preventDefault();
+        iniciarCheckout(ctaCheckout, false);
+      });
+
+      ctaTrial.addEventListener('click', (e) => {
+        e.preventDefault();
+        iniciarCheckout(ctaTrial, true);
       });
       // Mobile navbar toggle logic
       const navbarToggle = document.querySelector('.navbar-toggle');
