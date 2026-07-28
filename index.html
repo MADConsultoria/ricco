@@ -1344,29 +1344,13 @@
     .cta-checkout.loading .cta-label{display:none}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    .trial-link{
-      display:inline-flex;align-items:center;justify-content:center;
-      gap:8px;
-      margin-top:14px;
-      border:none;background:none;
-      color:var(--text-muted);
-      font-size:14px;font-weight:600;
-      font-family:'Montserrat',sans-serif;
-      cursor:pointer;
-      transition:color .2s;
+    .checkout-caption{
+      margin:0 0 16px;
+      font-size:14px;
+      color:var(--text-secondary);
+      text-align:center;
     }
-    .trial-link:hover{color:var(--cyan)}
-    .trial-link:disabled{cursor:not-allowed;opacity:.6}
-    .trial-link .spinner{
-      display:none;
-      width:14px;height:14px;
-      border:2px solid rgba(255,255,255,.25);
-      border-top-color:var(--text-muted);
-      border-radius:50%;
-      animation:spin .7s linear infinite;
-    }
-    .trial-link.loading .spinner{display:inline-block}
-    .trial-link.loading .trial-label{display:none}
+    .checkout-caption strong{color:var(--text-primary)}
 
     .checkout-secure{
       margin-top:16px;
@@ -1617,10 +1601,10 @@
 
   <body>
     <!-- ═══ Lead Capture Modal ═══ -->
-    <div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadTitle">
+    <div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadTitle" hidden>
       <form class="lead-form" id="leadForm">
-        <h2 id="leadTitle">Antes de acessar</h2>
-        <p>Preencha seus dados para ver se o Caixa Lucrativo faz sentido para o seu momento.</p>
+        <h2 id="leadTitle">Vamos começar!</h2>
+        <p>Preencha seus dados para liberar seus <strong>15 dias grátis</strong> no Ricco.</p>
         <div class="lead-fields">
           <div class="lead-field">
             <label for="leadNome">Nome</label>
@@ -1649,7 +1633,7 @@
             </select>
           </div>
         </div>
-        <button class="lead-submit" type="submit">Acessar página</button>
+        <button class="lead-submit" type="submit">Liberar meus 15 dias grátis</button>
         <p class="lead-feedback" id="leadFeedback" aria-live="polite"></p>
       </form>
     </div>
@@ -2020,12 +2004,9 @@
                 </div>
               </label>
             </div>
+            <p class="checkout-caption">Preencha seus dados e comece agora — <strong>15 dias grátis</strong>, sem compromisso.</p>
             <button class="cta-checkout" id="ctaCheckout" type="button">
-              <span class="cta-label">Quero organizar minhas finanças</span>
-              <span class="spinner"></span>
-            </button>
-            <button class="trial-link" id="ctaTrial" type="button">
-              <span class="trial-label">ou comece com 15 dias grátis →</span>
+              <span class="cta-label">Começar meus 15 dias grátis</span>
               <span class="spinner"></span>
             </button>
             <div class="checkout-secure">
@@ -2064,10 +2045,9 @@
       if (savedEmail) document.getElementById('leadEmail').value = savedEmail;
       if (savedWhatsapp) document.getElementById('leadWhatsapp').value = savedWhatsapp;
 
-      // Auto-hide lead modal if user details are already in localStorage
-      if (savedNome && savedEmail && savedWhatsapp) {
-        leadModal.hidden = true;
-      }
+      // Se o clique no CTA abriu o modal por falta de dados, retoma o checkout
+      // automaticamente assim que o formulário for enviado com sucesso.
+      let checkoutPending = false;
 
       leadForm.addEventListener('submit', async event => {
         event.preventDefault();
@@ -2094,11 +2074,16 @@
           });
           leadModal.hidden = true;
           leadForm.reset();
+
+          if (checkoutPending) {
+            checkoutPending = false;
+            iniciarCheckout(ctaCheckout, true);
+          }
         } catch (err) {
           leadFeedback.textContent = 'Não foi possível enviar agora. Tente novamente.';
         } finally {
           leadSubmit.disabled    = false;
-          leadSubmit.textContent = 'Acessar página';
+          leadSubmit.textContent = 'Liberar meus 15 dias grátis';
         }
       });
 
@@ -2191,7 +2176,6 @@
 
       /* ── Checkout CTA Flow ──────────────────────────── */
       const ctaCheckout = document.getElementById('ctaCheckout');
-      const ctaTrial    = document.getElementById('ctaTrial');
 
       async function iniciarCheckout(button, testeGratis) {
         // 1. Recover lead data from localStorage
@@ -2199,10 +2183,11 @@
         const email = localStorage.getItem('ricco_email')    || '';
         const fone  = localStorage.getItem('ricco_whatsapp') || '';
 
-        // Validate
+        // Sem dados salvos ainda: abre o modal e retoma o checkout após o envio
         if (!nome || !email || !fone) {
-          alert('Por favor, preencha seus dados no formulário inicial antes de continuar.');
+          checkoutPending = true;
           leadModal.hidden = false;
+          document.getElementById('leadNome').focus();
           return;
         }
 
@@ -2272,12 +2257,7 @@
 
       ctaCheckout.addEventListener('click', (e) => {
         e.preventDefault();
-        iniciarCheckout(ctaCheckout, false);
-      });
-
-      ctaTrial.addEventListener('click', (e) => {
-        e.preventDefault();
-        iniciarCheckout(ctaTrial, true);
+        iniciarCheckout(ctaCheckout, true);
       });
       // Mobile navbar toggle logic
       const navbarToggle = document.querySelector('.navbar-toggle');
