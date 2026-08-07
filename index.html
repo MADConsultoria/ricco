@@ -912,6 +912,86 @@
       box-shadow: 0 16px 48px rgba(84,212,225,.15);
     }
 
+    /* ── Depoimentos ────────────────────────────────── */
+    .testimonials-section{
+      background:var(--bg-primary);
+      padding:80px 24px;
+    }
+    .testimonials-title{
+      text-align:center;
+      margin:0 0 48px;
+      font-size:clamp(26px,4vw,42px);
+      font-family:'League Spartan','Poppins',sans-serif;
+      text-transform:uppercase;
+      letter-spacing:.03em;
+      background:var(--gradient-brand);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .testimonials-grid{
+      max-width:1120px;margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:24px;
+    }
+    .testimonial-card{
+      border-radius:var(--radius-lg);
+      padding:36px 32px;
+      background:var(--glass-bg);
+      border:1px solid var(--glass-border);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      display:flex;flex-direction:column;gap:20px;
+      transition:transform .35s,border-color .35s,box-shadow .35s;
+    }
+    .testimonial-card:hover{
+      transform:translateY(-6px);
+      border-color:var(--glass-border-hover);
+      box-shadow:0 16px 48px rgba(0,0,0,.3);
+    }
+    .testimonial-quote-mark{
+      font-family:'League Spartan',sans-serif;
+      font-size:48px;
+      line-height:.6;
+      background:var(--gradient-brand);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .testimonial-quote{
+      margin:0;
+      font-size:15.5px;
+      line-height:1.7;
+      color:var(--text-secondary);
+      white-space:pre-line;
+    }
+    .testimonial-author{
+      display:flex;align-items:center;gap:14px;
+      margin-top:auto;
+      padding-top:4px;
+    }
+    .testimonial-avatar{
+      width:48px;height:48px;flex-shrink:0;
+      border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      background:var(--gradient-brand);
+      color:#fff;font-weight:800;font-size:15px;
+      font-family:'League Spartan',sans-serif;
+    }
+    .testimonial-author strong{
+      display:block;
+      color:var(--text-primary);
+      font-size:15px;font-weight:700;
+      font-family:'Montserrat',sans-serif;
+    }
+    .testimonial-author span{
+      display:block;
+      color:var(--text-muted);
+      font-size:13px;
+      margin-top:2px;
+    }
+    @media(max-width:600px){
+      .testimonials-section{padding:50px 18px}
+      .testimonial-card{padding:28px 24px}
+    }
+
     /* ── Chat Demo Section ─────────────────────────── */
     .chat-demo-section{
       padding:80px 24px;
@@ -1850,6 +1930,41 @@
           <li class="reveal reveal-delay-2"><img src="assets/number4.webp" alt="4" /><span>Dashboard com indicadores</span></li>
           <li class="reveal reveal-delay-3"><img src="assets/number5.webp" alt="5" /><span>IA com alertas e boas práticas</span></li>
         </ul>
+      </div>
+    </section>
+
+    <!-- ═══ Depoimentos ═══ -->
+    <section class="testimonials-section">
+      <div class="wrap">
+        <h2 class="testimonials-title reveal">Quem já usa, recomenda</h2>
+        <div class="testimonials-grid">
+          <article class="testimonial-card reveal reveal-delay-1">
+            <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+            <p class="testimonial-quote">Antes de utilizar a ferramenta Ricco para a gestão financeira da minha empresa, eu não tinha clareza sobre meus gastos, custos e lucro. Com a plataforma, passei a ter uma visão completa da saúde financeira do meu negócio.
+
+Hoje acompanho meus números com precisão, tomo decisões mais estratégicas e administro minha empresa com muito mais segurança, organização e controle.
+
+Gratidão à Ricco por proporcionar essa transformação na gestão da Kryda Artes e Personalização.</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">CR</div>
+              <div>
+                <strong>Christiane Ribeiro</strong>
+                <span>Kryda Artes e Personalização</span>
+              </div>
+            </div>
+          </article>
+          <article class="testimonial-card reveal reveal-delay-2">
+            <span class="testimonial-quote-mark" aria-hidden="true">"</span>
+            <p class="testimonial-quote">Gratidão por disponibilizar um aplicativo que realmente facilita a rotina de quem empreende. Ferramentas como essa tornam os processos mais ágeis, economizam tempo e permitem que possamos focar no que realmente importa: oferecer o melhor aos nossos clientes. Parabéns pela iniciativa e obrigado por contribuir com o crescimento dos empreendedores! Sucesso 👏🏻</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar" aria-hidden="true">VB</div>
+              <div>
+                <strong>Vanessa Bogada</strong>
+                <span>Chef Vanessa</span>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
