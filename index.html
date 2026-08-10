@@ -915,12 +915,12 @@
     /* ── Depoimentos ────────────────────────────────── */
     .testimonials-section{
       background:var(--bg-primary);
-      padding:80px 24px;
+      padding:60px 24px;
     }
     .testimonials-title{
       text-align:center;
-      margin:0 0 48px;
-      font-size:clamp(26px,4vw,42px);
+      margin:0 0 32px;
+      font-size:clamp(24px,3.4vw,36px);
       font-family:'League Spartan','Poppins',sans-serif;
       text-transform:uppercase;
       letter-spacing:.03em;
@@ -928,19 +928,22 @@
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
     }
     .testimonials-grid{
-      max-width:1120px;margin:0 auto;
+      max-width:680px;margin:0 auto;
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:24px;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+      justify-items:center;
     }
     .testimonial-card{
+      width:100%;
+      max-width:280px;
       border-radius:var(--radius-lg);
-      padding:36px 32px;
+      padding:20px 18px;
       background:var(--glass-bg);
       border:1px solid var(--glass-border);
       backdrop-filter:blur(12px);
       -webkit-backdrop-filter:blur(12px);
-      display:flex;flex-direction:column;gap:20px;
+      display:flex;flex-direction:column;gap:14px;
       transition:transform .35s,border-color .35s,box-shadow .35s;
     }
     .testimonial-card:hover{
@@ -981,8 +984,8 @@
       margin-top:2px;
     }
     @media(max-width:600px){
-      .testimonials-section{padding:50px 18px}
-      .testimonial-card{padding:28px 24px}
+      .testimonials-section{padding:40px 18px}
+      .testimonial-card{padding:18px 16px}
     }
 
     /* ── Chat Demo Section ─────────────────────────── */
