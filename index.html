@@ -2080,6 +2080,13 @@
       const GOOGLE_SCRIPT_URL = 'https://script.google.com/a/macros/level5group.com.br/s/AKfycbxVTnkgqhxYWC-ZfPIXXKkQ59KKJWli2gaflC3MT206Tnn2Wr9D_MYCsIlwBeYxzEWV-A/exec';
       const N8N_WEBHOOK_URL  = 'https://n8nricco.caixalucrativo.com.br/webhook/c0b75b34-138b-40e7-8c31-3bc7bcefac85';
 
+      // Código fixo de referência para réplicas deste site (ex: domínio de uma
+      // embaixadora). Deixe vazio '' no site principal. Numa réplica, defina o
+      // código dela aqui (ex: 'christiane-kryda') para que todo lead/checkout
+      // feito por esse domínio já venha automaticamente atribuído a ela, mesmo
+      // sem um parâmetro ?ref= na URL. Um ?ref= na URL, se presente, tem prioridade.
+      const AMBASSADOR_REF = '';
+
       /* ── Lead Modal (Capture + localStorage) ───────── */
       const leadModal    = document.getElementById('leadModal');
       const leadForm     = document.getElementById('leadForm');
@@ -2112,6 +2119,7 @@
         const formData = new FormData(leadForm);
         const payload  = Object.fromEntries(formData.entries());
         payload.origem = 'LP Caixa Lucrativo';
+        payload.ref    = new URLSearchParams(window.location.search).get('ref') || AMBASSADOR_REF || '';
 
         // Save lead data to localStorage for checkout flow
         localStorage.setItem('ricco_nome',     payload.nome     || '');
@@ -2253,9 +2261,9 @@
         const platformInput  = document.querySelector('input[name="platform"]:checked');
         const versaoProduto  = platformInput ? platformInput.value : 'whatsapp';
 
-        // 3. Capture ?ref= from URL
+        // 3. Capture ?ref= from URL (com fallback pro AMBASSADOR_REF fixo, se configurado)
         const urlParams = new URLSearchParams(window.location.search);
-        const ref       = urlParams.get('ref') || '';
+        const ref       = urlParams.get('ref') || AMBASSADOR_REF || '';
 
         // 4. Show loading spinner
         button.classList.add('loading');
