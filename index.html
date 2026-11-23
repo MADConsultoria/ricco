@@ -1477,6 +1477,160 @@
       color:var(--text-secondary);
     }
 
+    /* ── Planos (3 níveis) ──────────────────────────── */
+    .pricing-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:24px;
+      align-items:start;
+      max-width:1080px;margin:0 auto;
+    }
+    .pricing-card{
+      position:relative;
+      border-radius:var(--radius-lg);
+      padding:32px 28px;
+      background:var(--glass-bg);
+      border:1px solid var(--glass-border);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      display:flex;flex-direction:column;
+      transition:transform .3s,box-shadow .3s,border-color .3s;
+    }
+    .pricing-card:hover{transform:translateY(-4px)}
+    .pricing-card--featured{
+      border-color:rgba(124,66,224,.55);
+      background:var(--glass-bg-hover);
+      box-shadow:0 20px 50px var(--glow-purple);
+    }
+    /* Escada de valor: os três planos sobem em degraus, da esquerda pra
+       direita, reforçando visualmente que cada plano é um passo acima. */
+    @media(min-width:769px){
+      .pricing-grid .pricing-card:nth-child(1){ margin-top:64px }
+      .pricing-grid .pricing-card:nth-child(2){ margin-top:28px }
+      .pricing-grid .pricing-card:nth-child(3){ margin-top:0 }
+      .pricing-card--featured{transform:scale(1.04)}
+      .pricing-card--featured:hover{transform:scale(1.04) translateY(-4px)}
+    }
+    .pricing-badge{
+      position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+      background:var(--gradient-cta);
+      color:#fff;font-size:11px;font-weight:800;
+      letter-spacing:.06em;text-transform:uppercase;
+      padding:6px 16px;border-radius:var(--radius-pill);
+      white-space:nowrap;
+      box-shadow:0 6px 18px var(--glow-purple);
+    }
+    .pricing-name{
+      font-family:'League Spartan','Poppins',sans-serif;
+      font-size:20px;font-weight:800;
+      color:var(--text-primary);
+      margin-bottom:6px;
+    }
+    .pricing-price{
+      display:flex;align-items:baseline;gap:4px;
+      margin-bottom:2px;
+    }
+    .pricing-price strong{
+      font-family:'League Spartan','Poppins',sans-serif;
+      font-size:clamp(30px,4vw,38px);font-weight:800;
+      color:var(--text-primary);
+    }
+    .pricing-price span{
+      font-size:14px;color:var(--text-muted);
+    }
+    .pricing-annual{
+      font-size:12.5px;color:var(--text-muted);
+      margin-bottom:18px;
+    }
+    .pricing-tagline{
+      font-size:13.5px;font-weight:700;
+      color:var(--cyan);
+      margin-bottom:16px;
+      padding-bottom:16px;
+      border-bottom:1px solid var(--glass-border);
+    }
+    .pricing-features{
+      list-style:none;
+      display:flex;flex-direction:column;gap:12px;
+      margin-bottom:0;
+    }
+    .pricing-features li{
+      display:flex;align-items:flex-start;gap:10px;
+      font-size:14px;line-height:1.4;
+      color:var(--text-secondary);
+    }
+    .pricing-features li img{width:18px;flex-shrink:0;margin-top:1px}
+    .pricing-features li.is-off{color:var(--text-muted)}
+    .pricing-cta{
+      margin-top:24px;
+      width:100%;padding:14px 20px;
+      border-radius:var(--radius-pill);
+      border:1px solid var(--glass-border-hover);
+      background:transparent;color:var(--text-primary);
+      font-family:'League Spartan','Poppins',sans-serif;
+      font-size:16px;font-weight:700;cursor:pointer;
+      transition:background .2s,border-color .2s,transform .2s;
+    }
+    .pricing-cta:hover{background:var(--glass-bg-hover);border-color:var(--purple-mid)}
+    .pricing-cta--featured{
+      border:none;background:var(--gradient-cta);
+      box-shadow:0 8px 24px var(--glow-purple);
+    }
+    .pricing-cta--featured:hover{background:var(--gradient-cta);transform:translateY(-2px)}
+    .pricing-card.is-selected{border-color:var(--purple-mid)}
+    /* ── Bônus de lançamento ───────────────────────── */
+    .bonus{
+      max-width:1080px;margin:56px auto 0;
+      padding:36px 32px 32px;
+      border-radius:var(--radius-lg);
+      border:1px solid rgba(99,87,227,.45);
+      background:linear-gradient(160deg,rgba(99,87,227,.14),rgba(84,212,225,.05));
+      position:relative;
+    }
+    .bonus-tag{
+      display:inline-block;margin-bottom:14px;
+      padding:6px 14px;border-radius:var(--radius-pill);
+      background:var(--gradient-cta);color:#06060e;
+      font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    }
+    .bonus-title{
+      margin:0 0 10px;
+      font-family:'League Spartan','Poppins',sans-serif;
+      font-size:clamp(24px,3.6vw,34px);font-weight:800;color:var(--text-primary);
+    }
+    .bonus-lead{margin:0 0 28px;font-size:16px;line-height:1.6;color:var(--text-secondary);max-width:720px}
+    .bonus-lead strong{color:var(--text-primary)}
+    .bonus-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .bonus-item{
+      padding:20px;border-radius:var(--radius-md);
+      background:var(--glass-bg);border:1px solid var(--glass-border);
+    }
+    .bonus-step{
+      display:flex;align-items:center;gap:10px;margin-bottom:10px;
+      font-family:'League Spartan','Poppins',sans-serif;font-size:18px;font-weight:700;color:var(--text-primary);
+    }
+    .bonus-step span{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:26px;height:26px;border-radius:50%;
+      background:var(--gradient-brand);font-size:13px;font-weight:800;color:#fff;
+    }
+    .bonus-item ul{list-style:none;display:grid;gap:7px}
+    .bonus-item li{font-size:14px;line-height:1.45;color:var(--text-secondary);padding-left:16px;position:relative}
+    .bonus-item li::before{content:'';position:absolute;left:0;top:8px;width:6px;height:6px;border-radius:50%;background:var(--cyan)}
+    .bonus-foot{margin:24px 0 0;font-size:14px;line-height:1.55;color:var(--text-muted)}
+    .bonus-foot strong{color:var(--text-primary)}
+    @media(max-width:900px){.bonus-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){.bonus{padding:28px 18px 24px}.bonus-grid{grid-template-columns:1fr}}
+    .checkout-plan{
+      margin:0 0 10px;text-align:center;
+      font-size:14px;color:var(--text-secondary);
+    }
+    .checkout-plan strong{color:var(--text-primary)}
+    .checkout-plan a{color:var(--cyan);margin-left:6px;text-decoration:underline;text-underline-offset:3px}
+    @media(max-width:768px){
+      .pricing-grid{grid-template-columns:1fr;max-width:400px}
+      .pricing-card--featured{order:-1}
+    }
+
     /* ── Dark Section (Final CTA) ──────────────────── */
     .dark-section{
       position:relative;
@@ -2010,8 +2164,102 @@
             </ul>
           </article>
         </div>
-        <h3 class="offer-subtitle reveal">Tudo isso com um investimento acessível</h3>
-        <button class="offer-cta reveal">R$ 197 / mês</button>
+        <h3 class="offer-subtitle reveal">Escolha o nível de clareza que seu negócio precisa</h3>
+        <div class="pricing-grid">
+          <article class="pricing-card reveal reveal-delay-1">
+            <div class="pricing-name">Ricco Registro</div>
+            <div class="pricing-price"><strong>R$ 197</strong><span>/mês</span></div>
+            <div class="pricing-annual">Anual: 12x R$ 167</div>
+            <div class="pricing-tagline">Registra o passado.</div>
+            <ul class="pricing-features">
+              <li><img src="assets/check.webp" alt="" />Lançamento por WhatsApp</li>
+              <li><img src="assets/check.webp" alt="" />Dashboard + DRE do mês</li>
+              <li><img src="assets/check.webp" alt="" />1 CNPJ · 1 usuário</li>
+              <li class="is-off"><img src="assets/cross.webp" alt="" />Sem fluxo de caixa projetado</li>
+              <li class="is-off"><img src="assets/cross.webp" alt="" />Sem metas e alertas</li>
+              <li class="is-off"><img src="assets/cross.webp" alt="" />Sem análise mensal da IA</li>
+            </ul>
+            <button class="pricing-cta" type="button" data-plan="registro">Escolher Registro</button>
+          </article>
+          <article class="pricing-card pricing-card--featured reveal reveal-delay-2">
+            <span class="pricing-badge">Mais escolhido</span>
+            <div class="pricing-name">Ricco Controle</div>
+            <div class="pricing-price"><strong>R$ 297</strong><span>/mês</span></div>
+            <div class="pricing-annual">Anual: 12x R$ 247 · 2 meses grátis</div>
+            <div class="pricing-tagline">Tudo do Registro, e ainda decide o futuro:</div>
+            <ul class="pricing-features">
+              <li><img src="assets/check.webp" alt="" />Fluxo de caixa projetado — 90 dias</li>
+              <li><img src="assets/check.webp" alt="" />Metas e alertas de desvio</li>
+              <li><img src="assets/check.webp" alt="" />Fechamento do mês pela IA</li>
+              <li><img src="assets/check.webp" alt="" />Plano de contas personalizado</li>
+              <li><img src="assets/check.webp" alt="" />Até 3 usuários</li>
+              <li><img src="assets/check.webp" alt="" />Exportação para o contador</li>
+            </ul>
+            <button class="pricing-cta pricing-cta--featured" type="button" data-plan="controle">Escolher Controle</button>
+          </article>
+          <article class="pricing-card reveal reveal-delay-3">
+            <div class="pricing-name">Ricco Sócio</div>
+            <div class="pricing-price"><strong>R$ 697</strong><span>/mês</span></div>
+            <div class="pricing-annual">Anual: 12x R$ 580</div>
+            <div class="pricing-tagline">Tudo do Controle, com gente junto:</div>
+            <ul class="pricing-features">
+              <li><img src="assets/check.webp" alt="" />Até 3 CNPJs · usuários ilimitados</li>
+              <li><img src="assets/check.webp" alt="" />Visão consolidada entre empresas</li>
+              <li><img src="assets/check.webp" alt="" />Acesso liberado para o contador</li>
+              <li><img src="assets/check.webp" alt="" />Revisão humana mensal (30 min)</li>
+              <li><img src="assets/check.webp" alt="" />Onboarding assistido</li>
+              <li><img src="assets/check.webp" alt="" />WhatsApp prioritário</li>
+              <li><img src="assets/check.webp" alt="" />Relatório executivo trimestral</li>
+            </ul>
+            <button class="pricing-cta" type="button" data-plan="socio">Escolher Sócio</button>
+          </article>
+        </div>
+        <div class="bonus reveal" id="bonusLancamento">
+          <span class="bonus-tag">Bônus de lançamento · por tempo limitado<span id="bonusAte"></span></span>
+          <h3 class="bonus-title">Entre em 2027 com o caixa na mão</h3>
+          <p class="bonus-lead">Em qualquer plano, quem entrar na condição de lançamento leva, <strong>sem custo adicional</strong>, um caminho em 5 etapas para preparar, enxergar, planejar, decidir e manter o controle do dinheiro da empresa.</p>
+          <div class="bonus-grid">
+            <div class="bonus-item">
+              <div class="bonus-step"><span>1</span>Preparar</div>
+              <ul>
+                <li>Aulões sobre dólar, juros e reforma tributária (com gravação)</li>
+                <li>E-book, glossário da reforma e checklist de fechamento do ano</li>
+              </ul>
+            </div>
+            <div class="bonus-item">
+              <div class="bonus-step"><span>2</span>Enxergar</div>
+              <ul>
+                <li>Aula de fluxo de caixa</li>
+                <li>E-book “Os 10 números que todo dono precisa saber”</li>
+                <li>Prompts de IA para analisar despesas, DRE e fazer o diagnóstico geral</li>
+              </ul>
+            </div>
+            <div class="bonus-item">
+              <div class="bonus-step"><span>3</span>Planejar</div>
+              <ul>
+                <li>Planilha de orçamento 2027</li>
+                <li>Planilha de metas 2027</li>
+                <li>Prompt de consultor financeiro</li>
+              </ul>
+            </div>
+            <div class="bonus-item">
+              <div class="bonus-step"><span>4</span>Decidir</div>
+              <ul>
+                <li>Planilha de precificação</li>
+                <li>Aulões de vendas e de como tornar sua empresa mais desejada</li>
+                <li>Prompts para dívidas, aperto de caixa e pedido de crédito</li>
+              </ul>
+            </div>
+            <div class="bonus-item">
+              <div class="bonus-step"><span>5</span>Manter</div>
+              <ul>
+                <li>Comunidade com termômetro semanal por 12 meses</li>
+                <li>Aulas sobre IA no financeiro e gestão de pessoas</li>
+              </ul>
+            </div>
+          </div>
+          <p class="bonus-foot"><strong>O produto principal é o Ricco.</strong> Ele funciona sozinho; os bônus são um extra para os primeiros a entrar. Depois da campanha, os planos continuam com as condições normais.</p>
+        </div>
         <p class="offer-note reveal">Menos que o custo de uma decisão errada.</p>
         <p class="offer-guarantee reveal"><strong>7 dias de garantia.</strong> Se não for para você, peça o cancelamento em até 7 dias e receba o valor de volta.</p>
       </div>
@@ -2056,6 +2304,7 @@
                 </div>
               </label>
             </div>
+            <p class="checkout-plan" id="checkoutPlan"></p>
             <p class="checkout-caption"><strong>7 dias de garantia</strong>: peça o cancelamento nesse prazo e receba o valor de volta.</p>
             <button class="cta-checkout" id="ctaCheckout" type="button">
               <span class="cta-label">Quero começar agora</span>
@@ -2082,6 +2331,47 @@
       // feito por esse domínio já venha automaticamente atribuído a ela, mesmo
       // sem um parâmetro ?ref= na URL. Um ?ref= na URL, se presente, tem prioridade.
       const AMBASSADOR_REF = '';
+
+      /* ── Planos ────────────────────────────────────── */
+      // O preço real é definido no n8n a partir da chave do plano; aqui é só exibição.
+      const PLANS = {
+        registro: { nome: 'Ricco Registro', preco: 'R$ 197/mês' },
+        controle: { nome: 'Ricco Controle', preco: 'R$ 297/mês' },
+        socio:    { nome: 'Ricco Sócio',    preco: 'R$ 697/mês' }
+      };
+      let selectedPlan = 'controle';
+
+      function renderSelectedPlan() {
+        const plan = PLANS[selectedPlan];
+        document.getElementById('checkoutPlan').innerHTML =
+          'Plano escolhido: <strong>' + plan.nome + '</strong> · ' + plan.preco +
+          '<a href="#precos">trocar</a>';
+        document.querySelectorAll('.pricing-cta').forEach(btn => {
+          btn.closest('.pricing-card').classList.toggle('is-selected', btn.dataset.plan === selectedPlan);
+        });
+      }
+
+      document.querySelectorAll('.pricing-cta').forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectedPlan = btn.dataset.plan;
+          renderSelectedPlan();
+          document.getElementById('checkoutArea').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+      renderSelectedPlan();
+
+      /* ── Bônus de lançamento ───────────────────────── */
+      // Data limite do bônus (formato 'AAAA-MM-DD'). Vazio = sem data, aparece
+      // "por tempo limitado". Passada a data, a seção some sozinha e ficam só os planos.
+      const BONUS_ATE = '';
+      (function () {
+        const el = document.getElementById('bonusLancamento');
+        if (!el || !BONUS_ATE) return;
+        const fim = new Date(BONUS_ATE + 'T23:59:59');
+        if (new Date() > fim) { el.remove(); return; }
+        const [a, m, d] = BONUS_ATE.split('-');
+        document.getElementById('bonusAte').textContent = ' · até ' + d + '/' + m;
+      })();
 
       /* ── Lead Modal (Capture + localStorage) ───────── */
       const leadModal    = document.getElementById('leadModal');
@@ -2270,6 +2560,7 @@
           Email:          email,
           Telefone:       fone,
           VersaoProduto:  versaoProduto,
+          Plano:          selectedPlan,
           Ref:            ref
         };
 

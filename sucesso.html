@@ -192,7 +192,14 @@
         Fique de olho no seu e-mail nos próximos minutos
       </div>
 
-      <a class="back-link" href="index.html">← Voltar para o site</a>
+      <a id="backLink" class="back-link" href="index.html">← Voltar para o site</a>
+    <script>
+      // Quem comprou pelo site da Renata volta para o site dela
+      try {
+        var ref = new URLSearchParams(location.search).get('ref');
+        if (ref === 'renatapontes') document.getElementById('backLink').href = 'https://arenatapontes.com.br/';
+      } catch (e) {}
+    </script>
     </div>
   </body>
 </html>
