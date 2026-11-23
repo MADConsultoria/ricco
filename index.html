@@ -1650,6 +1650,11 @@
     }
     .checkout-plan strong{color:var(--text-primary)}
     .checkout-plan a{color:var(--cyan);margin-left:6px;text-decoration:underline;text-underline-offset:3px}
+    .checkout-renew{
+      margin:0 0 16px;text-align:center;
+      font-size:13px;line-height:1.5;color:var(--text-muted);
+    }
+    .checkout-renew strong{color:var(--text-secondary)}
     @media(max-width:768px){
       .pricing-grid{grid-template-columns:1fr;max-width:400px}
       .pricing-card--featured{order:-1}
@@ -2335,6 +2340,7 @@
               </label>
             </div>
             <p class="checkout-plan" id="checkoutPlan"></p>
+            <p class="checkout-renew" id="checkoutRenew"></p>
             <p class="checkout-caption"><strong>7 dias de garantia</strong>: peça o cancelamento nesse prazo e receba o valor de volta.</p>
             <button class="cta-checkout" id="ctaCheckout" type="button">
               <span class="cta-label">Quero começar agora</span>
@@ -2381,6 +2387,9 @@
           'Plano escolhido: <strong>' + plan.nome + ' · ' + (anual ? 'Anual' : 'Mensal') + '</strong> · ' +
           (anual ? brl(plan.anual) + '/ano' : brl(plan.mensal) + '/mês') +
           '<a href="#precos">trocar</a>';
+        document.getElementById('checkoutRenew').innerHTML = anual
+          ? '<strong>Renovação automática:</strong> o plano anual é cobrado a cada 12 meses (' + brl(plan.anual) + ') até você cancelar.'
+          : '<strong>Assinatura mensal:</strong> cobrada todo mês, sem data de término, até você cancelar.';
         document.querySelectorAll('.pricing-cta').forEach(btn => {
           btn.closest('.pricing-card').classList.toggle('is-selected', btn.dataset.plan === selectedPlan);
         });
