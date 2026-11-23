@@ -1482,7 +1482,7 @@
       display:grid;
       grid-template-columns:repeat(3,1fr);
       gap:24px;
-      align-items:start;
+      align-items:stretch;
       max-width:1080px;margin:0 auto;
     }
     .pricing-card{
@@ -1531,7 +1531,7 @@
     }
     .pricing-price strong{
       font-family:'League Spartan','Poppins',sans-serif;
-      font-size:clamp(30px,4vw,38px);font-weight:800;
+      font-size:clamp(24px,3.2vw,36px);font-weight:800;white-space:nowrap;
       color:var(--text-primary);
     }
     .pricing-price span{
@@ -1551,7 +1551,7 @@
     .pricing-features{
       list-style:none;
       display:flex;flex-direction:column;gap:12px;
-      margin-bottom:0;
+      margin-bottom:28px;
     }
     .pricing-features li{
       display:flex;align-items:flex-start;gap:10px;
@@ -1561,7 +1561,7 @@
     .pricing-features li img{width:18px;flex-shrink:0;margin-top:1px}
     .pricing-features li.is-off{color:var(--text-muted)}
     .pricing-cta{
-      margin-top:24px;
+      margin-top:auto;
       width:100%;padding:14px 20px;
       border-radius:var(--radius-pill);
       border:1px solid var(--glass-border-hover);
@@ -1577,6 +1577,30 @@
     }
     .pricing-cta--featured:hover{background:var(--gradient-cta);transform:translateY(-2px)}
     .pricing-card.is-selected{border-color:var(--purple-mid)}
+    /* ── Toggle mensal / anual ─────────────────────── */
+    .period-toggle{
+      display:flex;justify-content:center;margin:0 auto 36px;
+    }
+    .period-toggle-inner{
+      display:inline-flex;padding:5px;gap:4px;
+      border-radius:var(--radius-pill);
+      background:var(--glass-bg);border:1px solid var(--glass-border);
+    }
+    .period-btn{
+      border:none;background:transparent;cursor:pointer;
+      padding:11px 24px;border-radius:var(--radius-pill);
+      font-family:'League Spartan','Poppins',sans-serif;font-size:16px;font-weight:700;
+      color:var(--text-secondary);
+      transition:background .2s,color .2s;
+    }
+    .period-btn small{display:block;font-family:'Montserrat',sans-serif;font-size:11px;font-weight:600;opacity:.85}
+    .period-btn.is-active{background:var(--gradient-cta);color:#06060e;box-shadow:0 6px 18px var(--glow-purple)}
+    .pricing-note{
+      min-height:18px;
+      font-size:12.5px;line-height:1.4;color:var(--text-muted);
+      margin-bottom:18px;
+    }
+    .pricing-note b{color:var(--cyan);font-weight:700}
     /* ── Bônus de lançamento ───────────────────────── */
     .bonus{
       max-width:1080px;margin:56px auto 0;
@@ -2165,11 +2189,17 @@
           </article>
         </div>
         <h3 class="offer-subtitle reveal">Escolha o nível de clareza que seu negócio precisa</h3>
+        <div class="period-toggle reveal" role="group" aria-label="Periodicidade do plano">
+          <div class="period-toggle-inner">
+            <button class="period-btn" type="button" data-period="mensal">Mensal<small>sem data de término</small></button>
+            <button class="period-btn is-active" type="button" data-period="anual">Anual<small>economize e leve o bônus</small></button>
+          </div>
+        </div>
         <div class="pricing-grid">
           <article class="pricing-card reveal reveal-delay-1">
             <div class="pricing-name">Ricco Registro</div>
-            <div class="pricing-price"><strong>R$ 197</strong><span>/mês</span></div>
-            <div class="pricing-annual">Anual: 12x R$ 167</div>
+            <div class="pricing-price" data-plan-price="registro"></div>
+            <div class="pricing-note" data-plan-note="registro"></div>
             <div class="pricing-tagline">Registra o passado.</div>
             <ul class="pricing-features">
               <li><img src="assets/check.webp" alt="" />Lançamento por WhatsApp</li>
@@ -2184,8 +2214,8 @@
           <article class="pricing-card pricing-card--featured reveal reveal-delay-2">
             <span class="pricing-badge">Mais escolhido</span>
             <div class="pricing-name">Ricco Controle</div>
-            <div class="pricing-price"><strong>R$ 297</strong><span>/mês</span></div>
-            <div class="pricing-annual">Anual: 12x R$ 247 · 2 meses grátis</div>
+            <div class="pricing-price" data-plan-price="controle"></div>
+            <div class="pricing-note" data-plan-note="controle"></div>
             <div class="pricing-tagline">Tudo do Registro, e ainda decide o futuro:</div>
             <ul class="pricing-features">
               <li><img src="assets/check.webp" alt="" />Fluxo de caixa projetado — 90 dias</li>
@@ -2199,8 +2229,8 @@
           </article>
           <article class="pricing-card reveal reveal-delay-3">
             <div class="pricing-name">Ricco Sócio</div>
-            <div class="pricing-price"><strong>R$ 697</strong><span>/mês</span></div>
-            <div class="pricing-annual">Anual: 12x R$ 580</div>
+            <div class="pricing-price" data-plan-price="socio"></div>
+            <div class="pricing-note" data-plan-note="socio"></div>
             <div class="pricing-tagline">Tudo do Controle, com gente junto:</div>
             <ul class="pricing-features">
               <li><img src="assets/check.webp" alt="" />Até 3 CNPJs · usuários ilimitados</li>
@@ -2217,7 +2247,7 @@
         <div class="bonus reveal" id="bonusLancamento">
           <span class="bonus-tag">Bônus de lançamento · por tempo limitado<span id="bonusAte"></span></span>
           <h3 class="bonus-title">Entre em 2027 com o caixa na mão</h3>
-          <p class="bonus-lead">Em qualquer plano, quem entrar na condição de lançamento leva, <strong>sem custo adicional</strong>, um caminho em 5 etapas para preparar, enxergar, planejar, decidir e manter o controle do dinheiro da empresa.</p>
+          <p class="bonus-lead">No plano anual, quem entrar na condição de lançamento leva, <strong>sem custo adicional</strong>, um caminho em 5 etapas para preparar, enxergar, planejar, decidir e manter o controle do dinheiro da empresa.</p>
           <div class="bonus-grid">
             <div class="bonus-item">
               <div class="bonus-step"><span>1</span>Preparar</div>
@@ -2333,23 +2363,52 @@
       const AMBASSADOR_REF = '';
 
       /* ── Planos ────────────────────────────────────── */
-      // O preço real é definido no n8n a partir da chave do plano; aqui é só exibição.
+      // O preço real é definido no n8n (plano + periodo); aqui é só exibição.
+      // Mensal: assinatura recorrente sem data de término. Anual: cobrança única do ano.
       const PLANS = {
-        registro: { nome: 'Ricco Registro', preco: 'R$ 197/mês' },
-        controle: { nome: 'Ricco Controle', preco: 'R$ 297/mês' },
-        socio:    { nome: 'Ricco Sócio',    preco: 'R$ 697/mês' }
+        registro: { nome: 'Ricco Registro', mensal: 247, anual: 2004 },
+        controle: { nome: 'Ricco Controle', mensal: 347, anual: 2964 },
+        socio:    { nome: 'Ricco Sócio',    mensal: 747, anual: 6960 }
       };
-      let selectedPlan = 'controle';
+      let selectedPlan   = 'controle';
+      let selectedPeriod = 'anual';
+      const brl = n => 'R$ ' + n.toLocaleString('pt-BR');
 
       function renderSelectedPlan() {
         const plan = PLANS[selectedPlan];
+        const anual = selectedPeriod === 'anual';
         document.getElementById('checkoutPlan').innerHTML =
-          'Plano escolhido: <strong>' + plan.nome + '</strong> · ' + plan.preco +
+          'Plano escolhido: <strong>' + plan.nome + ' · ' + (anual ? 'Anual' : 'Mensal') + '</strong> · ' +
+          (anual ? brl(plan.anual) + '/ano' : brl(plan.mensal) + '/mês') +
           '<a href="#precos">trocar</a>';
         document.querySelectorAll('.pricing-cta').forEach(btn => {
           btn.closest('.pricing-card').classList.toggle('is-selected', btn.dataset.plan === selectedPlan);
         });
+        document.querySelectorAll('.period-btn').forEach(btn => {
+          btn.classList.toggle('is-active', btn.dataset.period === selectedPeriod);
+        });
+        Object.keys(PLANS).forEach(key => {
+          const p = PLANS[key];
+          const price = document.querySelector('[data-plan-price="' + key + '"]');
+          const note  = document.querySelector('[data-plan-note="' + key + '"]');
+          if (!price || !note) return;
+          if (anual) {
+            const economia = p.mensal * 12 - p.anual;
+            price.innerHTML = '<strong>' + brl(p.anual) + '</strong><span>/ano</span>';
+            note.innerHTML  = 'Equivale a ' + brl(Math.round(p.anual / 12)) + '/mês · pagamento único · <b>economize ' + brl(economia) + '</b>';
+          } else {
+            price.innerHTML = '<strong>' + brl(p.mensal) + '</strong><span>/mês</span>';
+            note.textContent = 'Assinatura mensal recorrente, sem data de término.';
+          }
+        });
       }
+
+      document.querySelectorAll('.period-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          selectedPeriod = btn.dataset.period;
+          renderSelectedPlan();
+        });
+      });
 
       document.querySelectorAll('.pricing-cta').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -2561,6 +2620,7 @@
           Telefone:       fone,
           VersaoProduto:  versaoProduto,
           Plano:          selectedPlan,
+          Periodo:        selectedPeriod,
           Ref:            ref
         };
 
