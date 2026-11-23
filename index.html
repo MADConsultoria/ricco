@@ -1367,19 +1367,17 @@
     }
     .checkout-caption strong{color:var(--text-primary)}
 
-    .skip-trial-link{
-      display:inline-flex;align-items:center;justify-content:center;
-      margin-top:12px;
-      border:none;background:none;
-      color:var(--text-muted);
-      font-size:13px;font-weight:600;
-      font-family:'Montserrat',sans-serif;
-      text-decoration:underline;text-underline-offset:3px;
-      cursor:pointer;
-      transition:color .2s;
+    .offer-guarantee{
+      max-width:620px;margin:32px auto 0;
+      padding:16px 22px;
+      text-align:center;
+      font-size:15px;line-height:1.5;
+      color:var(--text-secondary);
+      border:1px solid rgba(99,87,227,.4);
+      border-radius:var(--radius-md);
+      background:rgba(99,87,227,.08);
     }
-    .skip-trial-link:hover{color:var(--text-secondary)}
-    .skip-trial-link:disabled{cursor:not-allowed;opacity:.6}
+    .offer-guarantee strong{color:var(--text-primary)}
 
     .checkout-secure{
       margin-top:16px;
@@ -1633,7 +1631,7 @@
     <div class="lead-modal" id="leadModal" role="dialog" aria-modal="true" aria-labelledby="leadTitle" hidden>
       <form class="lead-form" id="leadForm">
         <h2 id="leadTitle">Vamos começar!</h2>
-        <p>Preencha seus dados para liberar seus <strong>15 dias grátis</strong> no Ricco.</p>
+        <p>Preencha seus dados para seguir para o pagamento. Você tem <strong>7 dias de garantia</strong>: se não gostar, peça o cancelamento e receba o valor de volta.</p>
         <div class="lead-fields">
           <div class="lead-field">
             <label for="leadNome">Nome</label>
@@ -1662,7 +1660,7 @@
             </select>
           </div>
         </div>
-        <button class="lead-submit" type="submit">Liberar meus 15 dias grátis</button>
+        <button class="lead-submit" type="submit">Ir para o pagamento</button>
         <p class="lead-feedback" id="leadFeedback" aria-live="polite"></p>
       </form>
     </div>
@@ -2015,6 +2013,7 @@
         <h3 class="offer-subtitle reveal">Tudo isso com um investimento acessível</h3>
         <button class="offer-cta reveal">R$ 197 / mês</button>
         <p class="offer-note reveal">Menos que o custo de uma decisão errada.</p>
+        <p class="offer-guarantee reveal"><strong>7 dias de garantia.</strong> Se não for para você, peça o cancelamento em até 7 dias e receba o valor de volta.</p>
       </div>
     </section>
 
@@ -2057,13 +2056,10 @@
                 </div>
               </label>
             </div>
-            <p class="checkout-caption">Preencha seus dados e comece agora — <strong>15 dias grátis</strong>, sem compromisso.</p>
+            <p class="checkout-caption"><strong>7 dias de garantia</strong>: peça o cancelamento nesse prazo e receba o valor de volta.</p>
             <button class="cta-checkout" id="ctaCheckout" type="button">
-              <span class="cta-label">Começar meus 15 dias grátis</span>
+              <span class="cta-label">Quero começar agora</span>
               <span class="spinner"></span>
-            </button>
-            <button class="skip-trial-link" id="ctaSkipTrial" type="button">
-              ou prosseguir direto para checkout sem teste grátis
             </button>
             <div class="checkout-secure">
               <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM12 17c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-9H9V6c0-1.66 1.34-3 3-3s3 1.34 3 3v2z"/></svg>
@@ -2110,7 +2106,7 @@
 
       // Se o clique no CTA abriu o modal por falta de dados, retoma o checkout
       // automaticamente assim que o formulário for enviado com sucesso.
-      let pendingCheckout = null; // { button, testeGratis } | null
+      let pendingCheckout = null; // { button } | null
 
       leadForm.addEventListener('submit', async event => {
         event.preventDefault();
@@ -2140,15 +2136,15 @@
           leadForm.reset();
 
           if (pendingCheckout) {
-            const { button, testeGratis } = pendingCheckout;
+            const { button } = pendingCheckout;
             pendingCheckout = null;
-            iniciarCheckout(button, testeGratis);
+            iniciarCheckout(button);
           }
         } catch (err) {
           leadFeedback.textContent = 'Não foi possível enviar agora. Tente novamente.';
         } finally {
           leadSubmit.disabled    = false;
-          leadSubmit.textContent = 'Liberar meus 15 dias grátis';
+          leadSubmit.textContent = 'Ir para o pagamento';
         }
       });
 
@@ -2241,9 +2237,8 @@
 
       /* ── Checkout CTA Flow ──────────────────────────── */
       const ctaCheckout  = document.getElementById('ctaCheckout');
-      const ctaSkipTrial = document.getElementById('ctaSkipTrial');
 
-      async function iniciarCheckout(button, testeGratis) {
+      async function iniciarCheckout(button) {
         // 1. Recover lead data from localStorage
         const nome  = localStorage.getItem('ricco_nome')     || '';
         const email = localStorage.getItem('ricco_email')    || '';
@@ -2251,7 +2246,7 @@
 
         // Sem dados salvos ainda: abre o modal e retoma o checkout após o envio
         if (!nome || !email || !fone) {
-          pendingCheckout = { button, testeGratis };
+          pendingCheckout = { button };
           leadModal.hidden = false;
           document.getElementById('leadNome').focus();
           return;
@@ -2275,9 +2270,16 @@
           Email:          email,
           Telefone:       fone,
           VersaoProduto:  versaoProduto,
-          Ref:            ref,
-          TesteGratis:    testeGratis
+          Ref:            ref
         };
+
+        // Abre a aba no clique (gesto do usuário) para o navegador não bloquear
+        // o pop-up enquanto o n8n gera o link; a URL é preenchida quando chegar.
+        const checkoutTab = window.open('', '_blank');
+        if (checkoutTab) {
+          checkoutTab.opener = null;
+          checkoutTab.document.write('<title>Preparando pagamento…</title><body style="margin:0;background:#06060e;color:#fff;font:16px system-ui;display:grid;place-items:center;height:100vh">Preparando seu pagamento…</body>');
+        }
 
         try {
           const response = await fetch(N8N_WEBHOOK_URL, {
@@ -2308,12 +2310,15 @@
 
           // 6. Open Asaas payment link in a new tab
           if (targetUrl) {
-            window.open(targetUrl, '_blank', 'noopener,noreferrer');
+            if (checkoutTab) checkoutTab.location.href = targetUrl;
+            else window.location.href = targetUrl;
           } else {
+            if (checkoutTab) checkoutTab.close();
             alert('Erro ao gerar link de pagamento. Tente novamente.');
           }
         } catch (err) {
           console.error('Checkout error:', err);
+          if (checkoutTab) checkoutTab.close();
           alert('Erro de conexão. Verifique sua internet e tente novamente.');
         } finally {
           button.classList.remove('loading');
@@ -2323,12 +2328,7 @@
 
       ctaCheckout.addEventListener('click', (e) => {
         e.preventDefault();
-        iniciarCheckout(ctaCheckout, true);
-      });
-
-      ctaSkipTrial.addEventListener('click', (e) => {
-        e.preventDefault();
-        iniciarCheckout(ctaSkipTrial, false);
+        iniciarCheckout(ctaCheckout);
       });
       // Mobile navbar toggle logic
       const navbarToggle = document.querySelector('.navbar-toggle');
